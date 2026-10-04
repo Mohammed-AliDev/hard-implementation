@@ -109,6 +109,13 @@ def setup_panel(console, root, scope, agents, dry_run=False):
     info.add_row("Location", Text(str(root)))
     info.add_row("Coding agents", ", ".join(AGENTS[a] for a in agents))
     info.add_row("Workflow", "Complete original • 2,397 lines • 46 sections")
+    shortcuts = [AGENTS[a] for a in agents if a in installer.COMMAND_ADAPTERS]
+    if shortcuts:
+        info.add_row("/hard.implement", ", ".join(shortcuts))
+    if any(a not in installer.COMMAND_ADAPTERS for a in agents):
+        info.add_row("Other hosts", "Use their native skill invocation; see the next steps")
+    if "vscode" in agents and scope == "global":
+        info.add_row("VS Code profile", "Stable default profile; custom profiles need prompt import")
     if dry_run:
         info.add_row("Mode", "Preview only — no files will be written")
     console.print(Panel(info, title="[bold cyan]Setup[/bold cyan]", border_style="cyan", padding=(1, 2)))
@@ -142,6 +149,14 @@ def next_steps(console, root, scope, agents, result, removed=False):
         steps.append("ZCode: Settings > Skills > Refresh, then enable the skill if needed.\n", style="yellow")
     if "vscode" in agents:
         steps.append("VS Code: use GitHub Copilot Agent chat; another extension uses its own agent integration.\n", style="dim")
+        if scope == "global":
+            steps.append("VS Code custom/portable/Insiders profiles: import the installed prompt into your active user profile.\n", style="yellow")
+    if "pi" in agents:
+        steps.append("Pi: run /reload in an open session; project prompts require native project trust.\n", style="dim")
+    if any(a not in installer.COMMAND_ADAPTERS for a in agents):
+        steps.append("/hard.implement is installed only for the hosts listed with that exact command above.\n", style="yellow")
+    if "hermes" in agents:
+        steps.append("Hermes can use /hard.implement after configuring a native quick-command alias; see docs/COMMANDS.md in the package repository.\n", style="dim")
     steps.append("Restart an already-open agent session if the new skill or command is missing.", style="dim")
     console.print(Panel(steps, title="[bold cyan]Next steps[/bold cyan]", border_style="cyan", padding=(1, 2)))
     console.print("Check installation anytime: [bold]hard status[/bold]")

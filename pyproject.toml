@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hard-implementation"
-version = "1.2.0"
+version = "1.2.1"
 description = "The complete universal implementation workflow with guided setup for coding agents"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -26,7 +26,7 @@ packages = ["src/hard_implementation"]
 "install.py" = "hard_implementation/installer.py"
 "distribution.json" = "hard_implementation/resources/distribution.json"
 "skills/hard-implementation" = "hard_implementation/resources/skills/hard-implementation"
-"adapters/opencode/hard.implement.md" = "hard_implementation/resources/adapters/opencode/hard.implement.md"
+"adapters" = "hard_implementation/resources/adapters"
 
 [tool.hatch.build.targets.sdist]
 include = ["src", "install.py", "distribution.json", "skills", "adapters", "scripts", "tests", "docs", "README.md", "README.ar.md", "LICENSE", "CHANGELOG.md", "pyproject.toml", ".gitattributes"]

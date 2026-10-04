@@ -13,7 +13,7 @@ import tempfile
 from urllib.request import urlopen
 
 REPOSITORY = "Mohammed-AliDev/hard-implementation"
-RELEASE = "v1.2.0"
+RELEASE = "v1.2.1"
 STATE = ".hard-implementation/install.json"
 SKILL_PREFIX = "skills/hard-implementation/"
 DEST_PREFIX = ".agents/skills/hard-implementation/"
@@ -21,18 +21,30 @@ ADAPTER = "adapters/opencode/hard.implement.md"
 COMMAND = ".opencode/commands/hard.implement.md"
 GLOBAL_STATE = ".hard-implementation/global-install.json"
 
+# Commands load the canonical skill; its standard-compliant name stays unchanged.
+COMMAND_ADAPTERS = {
+    "opencode": (ADAPTER, COMMAND),
+    "claude": ("adapters/claude/hard.implement.md", ".claude/commands/hard.implement.md"),
+    "commandcode": ("adapters/commandcode/hard.implement.md", ".commandcode/commands/hard.implement.md"),
+    "pi": ("adapters/pi/hard.implement.md", ".pi/prompts/hard.implement.md"),
+    "vscode": ("adapters/vscode/hard.implement.prompt.md", ".github/prompts/hard.implement.prompt.md"),
+}
+COMMAND_NAMES = {target for _, target in COMMAND_ADAPTERS.values()}
+VSCODE_COMMAND = COMMAND_ADAPTERS["vscode"][1]
+PI_COMMAND = COMMAND_ADAPTERS["pi"][1]
+
 # Native skill discovery; hosts sharing .agents need no duplicate copy.
 AGENTS = {
     "codex": {"label": "Codex", "command": "$hard-implementation", "cli": "codex"},
     "opencode": {"label": "OpenCode", "command": "/hard.implement", "cli": "opencode"},
-    "claude": {"label": "Claude Code", "command": "/hard-implementation", "cli": "claude"},
+    "claude": {"label": "Claude Code", "command": "/hard.implement", "cli": "claude"},
     "hermes": {"label": "Hermes", "command": "/hard-implementation", "cli": "hermes"},
-    "commandcode": {"label": "Command Code", "command": "/hard-implementation", "cli": "cmd"},
+    "commandcode": {"label": "Command Code", "command": "/hard.implement", "cli": "cmd"},
     "zcode": {"label": "ZCode", "command": "$hard-implementation", "cli": "zcode"},
     "antigravity": {"label": "Antigravity", "command": "/hard-implementation", "cli": "agy"},
     "warp": {"label": "Warp", "command": "/hard-implementation", "cli": "warp"},
-    "pi": {"label": "Pi", "command": "/skill:hard-implementation", "cli": "pi"},
-    "vscode": {"label": "VS Code / GitHub Copilot", "command": "/hard-implementation", "cli": "code"},
+    "pi": {"label": "Pi", "command": "/hard.implement", "cli": "pi"},
+    "vscode": {"label": "VS Code / GitHub Copilot", "command": "/hard.implement", "cli": "code"},
 }
 NATIVE_PREFIXES = (
     ".claude/skills/hard-implementation/", ".zcode/skills/hard-implementation/",
@@ -68,6 +80,18 @@ def destination(root, name, scope="project", config_home=None, hermes_home=None)
         if config.is_symlink():
             raise ValueError(f"Refusing symlink configuration directory: {config}")
         return safe_path(config, "opencode/commands/hard.implement.md")
+    if scope == "global" and name == PI_COMMAND:
+        return safe_path(root, ".pi/agent/prompts/hard.implement.md")
+    if scope == "global" and name == VSCODE_COMMAND:
+        # VS Code Stable's default user profile; no settings/profile changes.
+        if sys.platform == "win32":
+            return safe_path(root, "AppData/Roaming/Code/User/prompts/hard.implement.prompt.md")
+        if sys.platform == "darwin":
+            return safe_path(root, "Library/Application Support/Code/User/prompts/hard.implement.prompt.md")
+        config = Path(config_home) if config_home is not None else root / ".config"
+        if not config.is_absolute() or config.is_symlink():
+            raise ValueError("VS Code configuration directory must be absolute and not a symlink")
+        return safe_path(config, "Code/User/prompts/hard.implement.prompt.md")
     if scope == "global" and name.startswith(NATIVE_PREFIXES[2]) and hermes_home is not None:
         home = Path(hermes_home)
         if not home.is_absolute() or home.is_symlink():
@@ -87,7 +111,7 @@ def valid_relative(name):
 
 
 def managed_name(name):
-    return valid_relative(name) and (any(name.startswith(prefix) for prefix in (DEST_PREFIX, *NATIVE_PREFIXES)) or name == COMMAND)
+    return valid_relative(name) and (any(name.startswith(prefix) for prefix in (DEST_PREFIX, *NATIVE_PREFIXES)) or name in COMMAND_NAMES)
 
 
 def safe_path(root, name):
@@ -167,18 +191,21 @@ def payload(source, agents, scope="project"):
     required = ["references/workflow.md", "references/execution.md",
                 "assets/implementation-state.md", "scripts/audit_tasks.py",
                 "references/systems.md", "scripts/discover_system.py"]
-    if any(SKILL_PREFIX + name not in files for name in required) or ADAPTER not in files:
+    if (any(SKILL_PREFIX + name not in files for name in required)
+            or any(adapter not in files for adapter, _ in COMMAND_ADAPTERS.values())):
         raise ValueError("Required workflow resources or adapter missing")
+    adapters = {adapter: (agent, target) for agent, (adapter, target) in COMMAND_ADAPTERS.items()}
     result = {}
     for name, sha in files.items():
         if not valid_relative(name):
             raise ValueError("Invalid source path in distribution manifest")
         if name.startswith(SKILL_PREFIX):
             destinations = [prefix + name[len(SKILL_PREFIX):] for prefix in skill_prefixes(agents, scope)]
-        elif name == ADAPTER:
-            if "opencode" not in agents:
+        elif name in adapters:
+            agent, target = adapters[name]
+            if agent not in agents:
                 continue
-            destinations = [COMMAND]
+            destinations = [target]
         else:
             raise ValueError(f"Unexpected package resource: {name}")
         data = read_source(source, name)
@@ -205,6 +232,12 @@ def install(root, source, agents, dry_run=False, uninstall=False,
         skill_path = str(path_for(DEST_PREFIX + "SKILL.md"))
         desired[COMMAND] = desired[COMMAND].replace(
             b".agents/skills/hard-implementation/SKILL.md", skill_path.encode("utf-8"))
+    skill_path = (path_for(DEST_PREFIX + "SKILL.md").as_posix() if scope == "global"
+                  else DEST_PREFIX + "SKILL.md")
+    for name in COMMAND_NAMES - {COMMAND}:
+        if name in desired:
+            desired[name] = desired[name].replace(
+                b"{{HARD_SKILL_PATH}}", json.dumps(skill_path, ensure_ascii=False).encode("utf-8"))
     notify("workflow_done", "Full workflow and resources verified")
     owned = {}
     writes, removals = {}, []
@@ -257,7 +290,7 @@ def install(root, source, agents, dry_run=False, uninstall=False,
             if scope == "global":
                 state["command_path"] = str(path_for(COMMAND))
             state["external_paths"] = {name: str(path_for(name)) for name in owned
-                                       if name == COMMAND or (scope == "global" and name.startswith(NATIVE_PREFIXES[2]))}
+                                       if name in COMMAND_NAMES or (scope == "global" and name.startswith(NATIVE_PREFIXES[2]))}
             atomic_write(state_path, (json.dumps(state, indent=2) + "\n").encode())
     except (OSError, ValueError):
         for name, data in reversed(list(before.items())):

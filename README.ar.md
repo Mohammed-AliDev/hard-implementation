@@ -37,13 +37,13 @@ VS Code محرّر بيشغّل إضافات مختلفة؛ الدعم المس�
 لو أول مرة، ومعاك [uv](https://docs.astral.sh/uv/getting-started/installation/) وGit:
 
 ```bash
-uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.2.0
+uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.2.1
 ```
 
 لو برنامج `hard` متثبت عندك من قبل:
 
 ```bash
-uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.2.0
+uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.2.1
 ```
 
 ده بينزّل برنامج `hard` مرة واحدة، والمهارة كاملة موجودة جواه. مصدر الحزمة GitHub.
@@ -86,10 +86,17 @@ Hermes محتاج مشروع Git موثوق علشان يحمل مهارات ا�
 
 | الأداة | أمر التشغيل |
 |---|---|
+| OpenCode وClaude Code وCommand Code وPi وCopilot في VS Code | `/hard.implement` |
 | Codex وZCode | `$hard-implementation` |
-| OpenCode | `/hard.implement` |
-| Claude Code وHermes وCommand Code وAntigravity وWarp وCopilot في VS Code | `/hard-implementation` |
-| Pi | `/skill:hard-implementation` |
+| Hermes وAntigravity وWarp | `/hard-implementation` |
+
+**الأمر الموحّد اتضاف للأدوات الخمسة اللي في أول صف.** باقي الأدوات لسه ليها
+صيغة التشغيل اللي الأداة نفسها بتدعمها؛ مش مجرد تغيير الاسم المكتوب في الشاشة.
+Hermes ينفع يستخدم `/hard.implement` بعد إضافة اسم بديل في إعداداته بالطريقة
+المشروحة في [تفاصيل الأوامر وحدود كل أداة](docs/COMMANDS.md#hermes).
+في Pi، اكتب `/reload` لو الجلسة مفتوحة، ولازم المشروع يكون موثوق علشان يحمل أوامره.
+التثبيت العام لـVS Code بيحط الأمر في بروفايل Stable الافتراضي؛ لو بتستخدم بروفايل
+مخصص أو نسخة Portable أو Insiders، انقل ملف الأمر لبروفايلك من قائمة Prompt Files.
 
 لو عندك أكتر من feature أو change أو track أو plan، ضيف المسار الحقيقي بعد الأمر.
 المهارة هتكتشف النظام وملفاته، وتحافظ على الاعتمادات وحالات المهام عنده.

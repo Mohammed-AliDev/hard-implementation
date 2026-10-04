@@ -76,7 +76,8 @@ class CliTests(unittest.TestCase):
         self.assertTrue((self.root / ".claude/skills/hard-implementation/SKILL.md").is_file())
         self.assertTrue((self.root / ".zcode/skills/hard-implementation/SKILL.md").is_file())
         self.assertFalse((self.root / ".opencode/commands/hard.implement.md").exists())
-        self.assertIn("/skill:hard-implementation", self.output.getvalue())
+        self.assertIn("/hard.implement", self.output.getvalue())
+        self.assertTrue((self.root / ".pi/prompts/hard.implement.md").is_file())
 
     def test_all_agents_then_status_verifies_every_native_copy(self):
         self.assertEqual(self.run_cli(["init", str(self.root), "--agent", "all", "--yes", "--source", str(ROOT)]), 0)

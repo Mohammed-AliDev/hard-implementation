@@ -10,14 +10,17 @@ global setup); required native copies are additional complete copies, not summar
 |---|---|---|---|---|
 | `codex` | Codex | `.agents/skills/` | `~/.agents/skills/` | `$hard-implementation` |
 | `opencode` | OpenCode | `.agents/skills/` + `.opencode/commands/hard.implement.md` | `~/.agents/skills/` + config-home `opencode/commands/hard.implement.md` | `/hard.implement` |
-| `claude` | Claude Code | `.claude/skills/` | `~/.claude/skills/` | `/hard-implementation` |
+| `claude` | Claude Code | `.claude/skills/` + `.claude/commands/hard.implement.md` | same paths under home | `/hard.implement` |
 | `hermes` | Hermes | `.agents/skills/` in a trusted Git repository | `~/.hermes/skills/` (or `$HERMES_HOME/skills/`) | `/hard-implementation` |
-| `commandcode` | Command Code | `.agents/skills/` | `~/.agents/skills/` | `/hard-implementation` |
+| `commandcode` | Command Code | `.agents/skills/` + `.commandcode/commands/hard.implement.md` | same paths under home | `/hard.implement` |
 | `zcode` | ZCode Agent | `.zcode/skills/` | `~/.zcode/skills/` | `$hard-implementation` |
 | `antigravity` | Antigravity IDE/2.0/CLI | `.agents/skills/` | both `~/.gemini/config/skills/` and `~/.gemini/antigravity-cli/skills/` | `/hard-implementation` |
 | `warp` | Warp Agent | `.agents/skills/` | `~/.agents/skills/` | `/hard-implementation` |
-| `pi` | Pi coding agent | `.agents/skills/` | `~/.agents/skills/` | `/skill:hard-implementation` |
-| `vscode` | GitHub Copilot Agent in VS Code | `.agents/skills/` | `~/.agents/skills/` | `/hard-implementation` |
+| `pi` | Pi coding agent | `.agents/skills/` + `.pi/prompts/hard.implement.md` | `~/.agents/skills/` + `~/.pi/agent/prompts/hard.implement.md` | `/hard.implement` |
+| `vscode` | GitHub Copilot Agent in VS Code | `.agents/skills/` + `.github/prompts/hard.implement.prompt.md` | shared skills + Stable default user profile prompts | `/hard.implement` |
+
+See [command aliases and host limitations](COMMANDS.md) for exact VS Code profile
+paths, Hermes configuration, and hosts without a validated dotted slash alias.
 
 Skill roots in this table each contain `hard-implementation/SKILL.md` and all of its
 resources. Existing native copies with the same name may override shared skills:

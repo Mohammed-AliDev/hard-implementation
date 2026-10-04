@@ -30,7 +30,8 @@ class PackageTests(unittest.TestCase):
         data = json.loads((ROOT / "distribution.json").read_text())
         actual = {p.relative_to(ROOT).as_posix() for p in (ROOT / "skills").rglob("*")
                   if p.is_file() and "__pycache__" not in p.parts and p.suffix != ".pyc"}
-        actual.add(installer.ADAPTER)
+        actual.update(p.relative_to(ROOT).as_posix() for p in (ROOT / "adapters").rglob("*")
+                      if p.is_file() and "__pycache__" not in p.parts and p.suffix != ".pyc")
         self.assertEqual(set(data["files"]), actual)
         for path, sha in data["files"].items():
             self.assertEqual(hashlib.sha256((ROOT / path).read_bytes()).hexdigest(), sha)

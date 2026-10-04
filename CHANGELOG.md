@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.1
+
+- Add `/hard.implement` native commands for Claude Code, Command Code, Pi, and VS Code Copilot alongside OpenCode.
+- Keep the canonical skill and complete original workflow unchanged; commands load the same full entrypoint.
+- Support project/global command locations, preserve existing custom commands, and protect external profile paths on removal.
+- Document exact host limitations and the optional Hermes native quick-command alias; no unsupported command names are advertised.
+
 ## 1.2.0
 
 - Make the public entrypoint universal across Spec Kit, Kiro Specs, cc-sdd, Spec Workflow MCP, OpenSpec, Spec Kitty, Conductor, and Superpowers.

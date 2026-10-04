@@ -7,7 +7,7 @@ Validation date: **2026-10-04 (Africa/Cairo)**.
 - Original author's attachment preserved byte-for-byte: 55,439 bytes, 2,397 lines,
   46 numbered sections (0–44 and 4A). SHA-256 and section index are in
   [PRESERVATION.md](PRESERVATION.md).
-- `uv run python -m unittest discover -s tests -v`: **41 tests passed** on Linux.
+- `uv run python -m unittest discover -s tests -v`: **48 tests passed** on Linux.
 - Skill Creator `quick_validate.py`: **passed**.
 - Python compilation check: **passed**.
 - Independent review exercised the installer and read the complete skill. A
@@ -20,6 +20,32 @@ The package suite covers install/reinstall/uninstall, selecting supported agents
 preserving unrelated and pre-existing identical files, refusing modified managed
 files and conflicting destinations, parent/symlink checks, payload corruption,
 record path validation, ordinary write-failure rollback, and honest task inventory.
+
+## v1.2.1 command adapters
+
+- All five native command files install in project/global locations and route to
+  the same complete skill. Reinstall, upgrade from the v1.2.0 ownership layout,
+  command collisions, edited command protection, and unowned-identical command
+  preservation are covered. VS Code default profile locations for Linux, macOS,
+  and Windows and external configuration-path changes are covered.
+- OpenCode's actual `--pure debug config` recognizes `hard.implement` and its
+  complete-skill loading template in an isolated project.
+- Pi **1.0.2** was installed under a temporary npm prefix. Its actual published
+  `loadPromptTemplates` and `expandPromptTemplate` recognized `/hard.implement`,
+  returned no diagnostics, and forwarded a quoted target with spaces and literal
+  `$1` argument text without recursive substitution. No agent/model was started.
+- Command Code **1.28.0**: its actual native `loadCommandsFromDirectory` function
+  was extracted from the installed CLI bundle and exercised against the fixture
+  through a filesystem adapter. It recognized the dotted filename and full-skill
+  loading body. This checks native loading, not full interactive dispatch/model
+  execution.
+- Claude Code and VS Code prompt adapters use their official documented native
+  formats. Their paths/payload/ownership are tested; a live chat execution has not
+  been run for these new aliases. Hermes's optional config alias is documented,
+  not automatically configured or claimed as an installed command.
+- Wheel/source builds include every new adapter. The original workflow hash is
+  unchanged. Exact `/hard.implement` registration is not claimed for Codex, ZCode,
+  Antigravity, or Warp; [COMMANDS.md](COMMANDS.md) records the constraints.
 
 ## Real-agent scenario
 

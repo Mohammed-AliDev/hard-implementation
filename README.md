@@ -38,13 +38,13 @@ Requirements: [uv](https://docs.astral.sh/uv/getting-started/installation/), Git
 Python 3.10+ (uv can provision it), and your chosen coding agent/model access.
 
 ```bash
-uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.2.0
+uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.2.1
 ```
 
 Updating an existing `hard` command:
 
 ```bash
-uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.2.0
+uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.2.1
 ```
 
 The package source is GitHub, not PyPI. The complete skill ships inside the package;
@@ -95,10 +95,17 @@ change, track, work-package collection, or linked plan path when needed.
 
 | Agent | Invocation |
 |---|---|
+| OpenCode / Claude Code / Command Code / Pi / VS Code Copilot | `/hard.implement` |
 | Codex / ZCode | `$hard-implementation` |
-| OpenCode | `/hard.implement` |
-| Claude Code / Hermes / Command Code / Antigravity / Warp / VS Code Copilot | `/hard-implementation` |
-| Pi | `/skill:hard-implementation` |
+| Hermes / Antigravity / Warp | `/hard-implementation` |
+
+**The exact slash command is installed for the five hosts in the first row.**
+Other hosts keep their supported invocation syntax; the package does not register
+unsupported aliases. Hermes can use the same spelling through a native quick-command
+alias. See [command support, setup, and limitations](docs/COMMANDS.md). Pi project
+prompts require trust; `/reload` refreshes an open session. Global VS Code prompts
+are placed in the Stable default user profile; custom/portable/Insiders profiles
+need import into the active profile.
 
 The agent first reads the full original workflow and native-system map, discovers
 what the project uses, and preserves its own implementation process. Restart or
@@ -148,13 +155,13 @@ The dependency-free legacy installer still supports project setup. From your act
 project (select agents explicitly; default retains Codex + OpenCode):
 
 ```bash
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.2.0/install.py --project . --agent claude --agent hermes
+uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.2.1/install.py --project . --agent claude --agent hermes
 ```
 
 Or clone this release and use local Python:
 
 ```bash
-git clone --branch v1.2.0 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
+git clone --branch v1.2.1 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
 python3 hard-implementation/install.py --project . --source hard-implementation --agent claude
 ```
 
