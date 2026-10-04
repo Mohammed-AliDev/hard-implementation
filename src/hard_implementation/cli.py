@@ -249,7 +249,8 @@ def run_setup(args, console):
     tree = Tree("[bold]Remove managed installation[/bold]" if remove else "[bold]Install Hard Implementation[/bold]")
     def progress(stage, detail):
         if stage.endswith("_done"):
-            tree.add(Text("✓ " + detail, style="green"))
+            mark = "✓ " if "utf" in (console.encoding or "").lower() else "OK: "
+            tree.add(Text(mark + detail, style="green"))
     try:
         if args.json:
             result = installer.install(root, source, agents, args.dry_run, remove, scope, config_home)

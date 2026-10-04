@@ -40,6 +40,16 @@ class CliTests(unittest.TestCase):
         self.assertEqual(self.run_cli(["status", str(project)]), 0)
         self.assertIn("Verified", self.output.getvalue())
 
+    def test_windows_cp1252_output_installs_without_unicode_failure(self):
+        raw = io.BytesIO()
+        output = io.TextIOWrapper(raw, encoding="cp1252")
+        console = Console(file=output, width=80, color_system=None)
+        self.assertEqual(cli.main(["init", str(self.root), "--agent", "both", "--yes", "--source", str(ROOT)], console=console), 0)
+        output.flush()
+        self.assertIn("Ready to use", raw.getvalue().decode("cp1252"))
+        self.assertEqual(cli.main(["status", str(self.root)], console=console), 0)
+        output.close()
+
     def test_wizard_routes_selected_agent_and_scope(self):
         project = self.root / "project"
         project.mkdir()

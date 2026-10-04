@@ -7,7 +7,7 @@ Validation date: **2026-10-04 (Africa/Cairo)**.
 - Original author's attachment preserved byte-for-byte: 55,439 bytes, 2,397 lines,
   46 numbered sections (0–44 and 4A). SHA-256 and section index are in
   [PRESERVATION.md](PRESERVATION.md).
-- `python3 -m unittest discover -s tests -v`: **27 tests passed** on Linux.
+- `python3 -m unittest discover -s tests -v`: **28 tests passed** on Linux.
 - Skill Creator `quick_validate.py`: **passed**.
 - Python compilation check: **passed**.
 - Independent review exercised the installer and read the complete skill. A
@@ -105,7 +105,7 @@ writes deterministic LF bytes. The original workflow content is unchanged.
 
 ## Guided CLI release (1.1.0)
 
-- All 27 package/CLI tests passed locally, including global installation with an
+- All 28 package/CLI tests passed locally, including global installation with an
   isolated home/configuration directory, changed-file status reporting, scope
   selection, cancellation, JSON output, dry-run, and non-interactive safeguards.
 - Built both wheel and source distribution with `uv build`.
