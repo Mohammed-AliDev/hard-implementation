@@ -24,7 +24,7 @@
 افتح الـTerminal جوه فولدر مشروعك. لو عندك [uv](https://docs.astral.sh/uv/getting-started/installation/)، اكتب:
 
 ```bash
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.0/install.py
+uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.1/install.py
 ```
 
 الأمر ده بيثبّت دعم الأداتين. لو عايز واحدة بس، زوّد `--agent codex` أو
@@ -33,7 +33,7 @@ uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-imple
 لو معندكش uv وعندك Python 3.10 أو أحدث، نزّل المستودع وشغّل المثبّت:
 
 ```bash
-git clone --branch v1.0.0 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
+git clone --branch v1.0.1 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
 python3 hard-implementation/install.py --project /path/to/your/project
 ```
 
@@ -85,7 +85,7 @@ specs/001-your-feature/evidence/implementation-state.md
 لإزالة التثبيت، اكتب أمر التثبيت ومعاه `--uninstall`:
 
 ```bash
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.0/install.py --uninstall
+uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.1/install.py --uninstall
 ```
 
 بيحذف الملفات اللي ثبّتها ولسه متعدّلتش فقط. ملفات المشروع والتقدم المسجّل تفضل موجودة.

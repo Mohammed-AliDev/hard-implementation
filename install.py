@@ -13,7 +13,7 @@ import tempfile
 from urllib.request import urlopen
 
 REPOSITORY = "Mohammed-AliDev/hard-implementation"
-RELEASE = "v1.0.0"
+RELEASE = "v1.0.1"
 STATE = ".hard-implementation/install.json"
 SKILL_PREFIX = "skills/hard-implementation/"
 DEST_PREFIX = ".agents/skills/hard-implementation/"

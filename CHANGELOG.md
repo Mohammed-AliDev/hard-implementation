@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1
+
+- Make distribution generation deterministic on Windows as well as Unix by sorting
+  POSIX path strings explicitly and writing LF bytes. The complete original
+  workflow and execution behavior are unchanged.
+- Keep all platform validation jobs running when a different platform fails.
+
 ## 1.0.0
 
 - Publish the complete original Hard Implementation workflow without deleting or

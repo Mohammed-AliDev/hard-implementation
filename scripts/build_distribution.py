@@ -12,12 +12,13 @@ def main():
     workflow = ROOT / "skills/hard-implementation/references/workflow.md"
     raw = workflow.read_bytes()
     assert hashlib.sha256(raw).hexdigest() == ORIGINAL_SHA256, "Original workflow changed"
-    paths = sorted(p for p in (ROOT / "skills").rglob("*")
-                   if p.is_file() and "__pycache__" not in p.parts and p.suffix != ".pyc")
+    paths = sorted((p for p in (ROOT / "skills").rglob("*")
+                    if p.is_file() and "__pycache__" not in p.parts and p.suffix != ".pyc"),
+                   key=lambda p: p.relative_to(ROOT).as_posix())
     paths += [ROOT / "adapters/opencode/hard.implement.md"]
-    data = {"package": "hard-implementation", "version": "1.0.0", "files": {
+    data = {"package": "hard-implementation", "version": "1.0.1", "files": {
         p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}}
-    (ROOT / "distribution.json").write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+    (ROOT / "distribution.json").write_bytes((json.dumps(data, indent=2) + "\n").encode("utf-8"))
     original_lines = raw.decode().splitlines()
     headings = [(i, s) for i, s in enumerate(original_lines, 1)
                 if re.match(r"^\d+[A-Z]?\. [A-Z]", s)
@@ -34,7 +35,7 @@ def main():
              "is instructed to read the complete original before implementation.", "",
              "| Original section | Line in preserved file |", "|---|---|"]
     lines += [f"| {title} | {number} |" for number, title in headings]
-    (ROOT / "docs/PRESERVATION.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (ROOT / "docs/PRESERVATION.md").write_bytes(("\n".join(lines) + "\n").encode("utf-8"))
 
 
 if __name__ == "__main__":

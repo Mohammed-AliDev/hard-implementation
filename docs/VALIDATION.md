@@ -94,3 +94,11 @@ that successfully ran the first stage, without editing global configuration.
 The published GitHub Actions workflow also tests the package across Linux, Windows,
 and macOS with Python 3.10 and 3.13. A workflow file alone is not evidence of a passed
 remote run; consult the actual repository Actions results.
+
+## Published distribution checks
+
+The public v1.0.0 URL installed all eight expected files in a clean directory;
+the full original workflow matched byte-for-byte. Initial CI found a development
+generator ordering difference on Windows (case-insensitive Path sorting), not a
+failed installation or changed payload. Version 1.0.1 sorts POSIX path strings and
+writes deterministic LF bytes. The original workflow content is unchanged.

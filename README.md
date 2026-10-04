@@ -35,14 +35,14 @@ your existing agent account/configuration; the package does not supply a model.
 Run from your **target project's root**:
 
 ```bash
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.0/install.py
+uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.1/install.py
 ```
 
 This installs support for **both** Codex and OpenCode. To select one:
 
 ```bash
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.0/install.py --agent codex
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.0/install.py --agent opencode
+uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.1/install.py --agent codex
+uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.1/install.py --agent opencode
 ```
 
 You can inspect the [installer](install.py) or preview destinations by appending
@@ -55,7 +55,7 @@ Clone the release into a separate tools directory, then run Python against your
 target project:
 
 ```bash
-git clone --branch v1.0.0 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
+git clone --branch v1.0.1 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
 python3 hard-implementation/install.py --project /path/to/your/project
 ```
 
@@ -130,7 +130,7 @@ customizations elsewhere before updating; there is deliberately no overwrite fla
 Uninstall with the same script and `--uninstall`:
 
 ```bash
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.0/install.py --uninstall
+uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.1/install.py --uninstall
 ```
 
 Uninstall removes only unchanged installer-owned files for both agents. Unrelated
