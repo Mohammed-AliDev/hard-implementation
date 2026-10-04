@@ -8,7 +8,6 @@ import shutil
 import sys
 
 import questionary
-from rich.align import Align
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
@@ -16,25 +15,14 @@ from rich.text import Text
 from rich.tree import Tree
 
 from . import __version__
+from .branding import render_banner
 from .core import bundled_source, installer
 
 AGENTS = {key: info["label"] for key, info in installer.AGENTS.items()}
-LOGO = """██╗  ██╗ █████╗ ██████╗ ██████╗
-██║  ██║██╔══██╗██╔══██╗██╔══██╗
-███████║███████║██████╔╝██║  ██║
-██╔══██║██╔══██║██╔══██╗██║  ██║
-██║  ██║██║  ██║██║  ██║██████╔╝
-╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝"""
 
 
 def banner(console):
-    console.print()
-    unicode_ok = "utf" in (console.encoding or "").lower()
-    if console.width >= 48 and unicode_ok:
-        console.print(Align.center(Text(LOGO, style="bold cyan")))
-    console.print(Align.center(Text("HARD IMPLEMENTATION", style="bold magenta")))
-    console.print(Align.center(Text(f"Universal implementation • v{__version__}", style="dim")))
-    console.print()
+    render_banner(console, __version__)
 
 
 def choose(console, title, choices, default):

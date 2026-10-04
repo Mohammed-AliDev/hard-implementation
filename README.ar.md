@@ -1,5 +1,7 @@
 # Hard Implementation — مهارة تنفيذ Universal
 
+![أسد بيزأر مع HARD وتوقيع ALAEEB في التيرمنال](docs/assets/banner.svg)
+
 دي مهارة التنفيذ الكاملة: تكتشف نظام المواصفات اللي مشروعك شغّال بيه، تقرأ المطلوب
 والتصميم والمهام، تنفّذ حسب الاعتماديات، تختبر وتراجع، وتكمّل الشغل المتاح مع حفظ التقدم.
 
@@ -37,13 +39,13 @@ VS Code محرّر بيشغّل إضافات مختلفة؛ الدعم المس�
 لو أول مرة، ومعاك [uv](https://docs.astral.sh/uv/getting-started/installation/) وGit:
 
 ```bash
-uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.0
+uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.1
 ```
 
 لو برنامج `hard` متثبت عندك من قبل:
 
 ```bash
-uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.0
+uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.1
 ```
 
 ده بينزّل برنامج `hard` مرة واحدة، والمهارة كاملة موجودة جواه. مصدر الحزمة GitHub.
@@ -60,6 +62,10 @@ hard init
 تختار بالأسهم أداة واحدة، أو **Choose several agents** علشان تختار مجموعة
 بالـSpace، أو **All supported agents** علشان تختار الكل. وبعدها تختار المشروع ده
 بس، أو كل مشاريعك على الجهاز. هتشوف المكان والاختيارات، وتأكد التثبيت.
+
+البداية بقت بأسد بيزأر مرسوم بالبكسلات، مع **HARD** وتوقيع **ALAEEB** الذهبي.
+الشكل بيتظبط حسب عرض التيرمنال؛ فيه نسخة بسيطة للشاشات الضيقة أو اللي مش بتدعم
+الألوان والرموز. ده شكل العرض؛ طريقة التنفيذ والمهارة كاملة زي ما هي.
 
 للتثبيت المباشر للأدوات كلها من غير أسئلة:
 

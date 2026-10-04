@@ -1,5 +1,7 @@
 # Hard Implementation — Universal
 
+![Roaring lion, HARD and ALAEEB terminal branding](docs/assets/banner.svg)
+
 **The complete implementation, review, verification, and recovery workflow for
 existing specification systems and coding agents.**
 
@@ -38,13 +40,13 @@ Requirements: [uv](https://docs.astral.sh/uv/getting-started/installation/), Git
 Python 3.10+ (uv can provision it), and your chosen coding agent/model access.
 
 ```bash
-uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.0
+uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.1
 ```
 
 Updating an existing `hard` command:
 
 ```bash
-uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.0
+uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.1
 ```
 
 The package source is GitHub, not PyPI. The complete skill ships inside the package;
@@ -60,6 +62,8 @@ hard init
 ```
 
 Choose your coding agent, then this project or all projects on this computer.
+The terminal opens with a roaring pixel-art lion, HARD wordmark and **ALAEEB**
+creator signature. The layout adapts to terminal width, color and encoding support.
 The agent menu includes **Codex, OpenCode, Claude Code, Hermes, Command Code,
 ZCode, Antigravity, Warp, Pi, and VS Code / GitHub Copilot**. Choose one, a custom
 selection (Space toggles agents), all agents, or the original Codex/OpenCode pair.
@@ -179,13 +183,13 @@ The dependency-free legacy installer still supports project setup. From your act
 project (select agents explicitly; default retains Codex + OpenCode):
 
 ```bash
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.3.0/install.py --project . --agent claude --agent hermes
+uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.3.1/install.py --project . --agent claude --agent hermes
 ```
 
 Or clone this release and use local Python:
 
 ```bash
-git clone --branch v1.3.0 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
+git clone --branch v1.3.1 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
 python3 hard-implementation/install.py --project . --source hard-implementation --agent claude
 ```
 

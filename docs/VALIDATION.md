@@ -2,7 +2,7 @@
 
 Validation date: **2026-10-04 (Africa/Cairo)**.
 
-## Current package checks (v1.3.0)
+## Current package checks (v1.3.1)
 
 - Original author's attachment preserved byte-for-byte: 55,439 bytes, 2,397 lines,
   46 numbered sections (0–44 and 4A). SHA-256 and section index are in
@@ -20,6 +20,25 @@ The package suite covers install/reinstall/uninstall, selecting supported agents
 preserving unrelated and pre-existing identical files, refusing modified managed
 files and conflicting destinations, parent/symlink checks, payload corruption,
 record path validation, ordinary write-failure rollback, and honest task inventory.
+
+## Lion branding release (1.3.1)
+
+- The terminal renderer uses a roaring pixel-art lion with HARD and ALAEEB wordmarks.
+  Actual Rich SVG exports were inspected on dark/light backgrounds and at medium width.
+- A real terminal `hard init --dry-run` displayed the full color layout; another
+  terminal run with NO_COLOR used its ASCII fallback. Both remained read-only.
+- Manual width checks covered 20, 23, 24, 40, 42, 60, 75, 76, 80 and 160 columns,
+  with/without color. ASCII, CP1252, UTF-8 and NO_COLOR output remained printable;
+  the existing JSON test confirms decoration is absent from machine output.
+- All 57 existing package tests passed locally, including legacy Windows encoding,
+  setup/status, JSON and installer preservation. No new model execution was required
+  for this visual change. Security controls, native invocations and original bytes
+  are unchanged.
+- The consistency checker additionally detects a stale version in the README's
+  terminal SVG preview. Preview rendering dependencies are development-only;
+  runtime still uses the same Rich/questionary dependencies.
+- Wheel/source archives include the renderer; the source archive also includes the
+  SVG and preview script. Rendering from the installed wheel passed in isolation.
 
 ## Security and consistency release (1.3.0)
 

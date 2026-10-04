@@ -27,6 +27,9 @@ These instructions govern package maintenance, documentation and release metadat
 3. Run `python scripts/check_consistency.py --write` to regenerate command tables,
    current release facts, README version links and distribution hashes. Inspect the
    generated changes; the script does not judge every prose claim or host capability.
+   When the version or terminal renderer changes, regenerate `docs/assets/banner.svg`
+   with `uv run python scripts/preview_banner.py docs/assets/banner.svg` and inspect
+   dark/light and narrow previews as described in the maintenance guide.
 4. Run the consistency check, relevant package tests, skill validation when its
    instructions change, and distribution builds when packaged files change.
    Fix drift instead of suppressing a check or deleting accurate historical evidence.

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.1
+
+- Replace the terminal banner with a roaring pixel-art lion, a cyan/violet HARD wordmark, golden ALAEEB creator signature and "ROAR. BUILD. VERIFY." tagline.
+- Fit full artwork side by side in wide color terminals; use a centered lion on medium terminals and compact ASCII/plain branding for small, monochrome or legacy-encoding output. JSON output stays free of decoration.
+- Add a self-contained SVG preview exported from the actual terminal renderer and document preview regeneration. Keep the complete original workflow and security/system bindings unchanged.
+
 ## 1.3.0
 
 - Add an applicable Universal Security Gate: threat modeling, sessions/auth, authorization, injection/encoding, data/privacy, secrets/crypto, transport/SSRF, abuse limits, third-party trust, supply chain, files, platform/infrastructure and audit verification.

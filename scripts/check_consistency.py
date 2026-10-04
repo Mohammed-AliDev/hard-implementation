@@ -153,6 +153,9 @@ def local_issues(root, data):
     engine = load_engine(root)
     if engine.RELEASE != "v" + data["version"]:
         errors.append("Installer release differs from the package version")
+    preview = root / "docs/assets/banner.svg"
+    if preview.exists() and re.findall(r"\bv\d+\.\d+\.\d+\b", preview.read_text(encoding="utf-8")) != ["v" + data["version"]]:
+        errors.append("Stale terminal banner preview; regenerate with scripts/preview_banner.py")
     for name, section in (("pyproject.toml", "[project]"), ("uv.lock", 'name = "hard-implementation"')):
         text = (root / name).read_text(encoding="utf-8").split(section, 1)[-1]
         match = re.search(r'(?m)^version = "([^"]+)"', text)

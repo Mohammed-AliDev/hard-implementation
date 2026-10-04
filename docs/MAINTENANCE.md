@@ -49,3 +49,22 @@ changelog/validation guide and Spec Kit names in the preserved original are vali
 history; current installation instructions and generated metadata must match the
 latest release. Add security coverage through [security.md](../skills/hard-implementation/references/security.md)
 and keep its applicability/evidence rules linked from the loading entrypoint.
+
+## Terminal branding
+
+The lion, HARD wordmark and ALAEEB signature are rendered by
+`src/hard_implementation/branding.py` using Rich text and terminal half blocks.
+No image protocol, animation, raster dependency or external asset is required at runtime.
+Wide color terminals use a side-by-side layout; medium terminals center the lion;
+small, monochrome and legacy-encoding output use compact ASCII/plain branding.
+JSON output remains undecorated. The consistency check detects a stale preview
+version. Preview the actual renderer after visual changes:
+
+```bash
+uv run python scripts/preview_banner.py docs/assets/banner.svg
+uv run python scripts/preview_banner.py /tmp/hard-banner-light.svg --theme light
+uv run python scripts/preview_banner.py /tmp/hard-banner-medium.svg --width 60
+```
+
+Regenerate the README preview when its version or renderer changes. Inspect both
+background themes and narrow layouts, and verify the installed package's rendering.
