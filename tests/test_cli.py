@@ -80,7 +80,7 @@ class CliTests(unittest.TestCase):
             self.assertEqual(self.run_cli(["init", "--global", "--agent", "both", "--yes", "--source", str(ROOT)]), 0)
             command = config / "opencode/commands/hard.implement.md"
             self.assertTrue(command.is_file())
-            self.assertIn(str(self.root / ".agents/skills/hard-implementation/SKILL.md"), command.read_text())
+            self.assertIn(str(self.root.resolve() / ".agents/skills/hard-implementation/SKILL.md"), command.read_text())
             self.assertEqual(self.run_cli(["status", "--global"]), 0)
             self.assertEqual(self.run_cli(["uninstall", "--global", "--yes"]), 0)
             self.assertFalse(command.exists())
