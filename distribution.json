@@ -1,9 +1,9 @@
 {
   "package": "hard-implementation",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "files": {
     "skills/hard-implementation/LICENSE": "b631dcaa59104ce4a16f456c05655cc37468b9098a7eb2a74fdf18c3353f5cdd",
-    "skills/hard-implementation/SKILL.md": "d66a053c2d2f9088f5f8e774b23dbf4321dbead4f1b3225d6db61143b70840a0",
+    "skills/hard-implementation/SKILL.md": "1b75cbd1a2be333f13a0c9b69e37150ad98325c6f6611204c01b3a77b8abf811",
     "skills/hard-implementation/agents/openai.yaml": "da549b279ab26c8290e0efbd50ecdc13cb5bc10cb4e39eb8c916322d01de5a8f",
     "skills/hard-implementation/assets/implementation-state.md": "b6c0b1dddc5978c37f14dd706b173b4ae8ad76b3a2057bd65b3d9b3d3cb0b5d6",
     "skills/hard-implementation/references/execution.md": "b3916a72368957f786651ae26c188c070cb63cbba2313a654accef20db0513fa",

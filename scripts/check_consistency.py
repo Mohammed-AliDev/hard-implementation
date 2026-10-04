@@ -156,12 +156,10 @@ def local_issues(root, data):
     preview = root / "docs/assets/banner.svg"
     if preview.exists() and re.findall(r"\bv\d+\.\d+\.\d+\b", preview.read_text(encoding="utf-8")) != ["v" + data["version"]]:
         errors.append("Stale terminal banner preview; regenerate with scripts/preview_banner.py")
-    art_source = root / "docs/assets/lion-realistic.png"
-    if art_source.exists():
-        compiled = root / "src/hard_implementation/lion_art.py"
-        source_hash = hashlib.sha256(art_source.read_bytes()).hexdigest()
-        if not compiled.is_file() or f'SOURCE_SHA256 = "{source_hash}"' not in compiled.read_text(encoding="utf-8"):
-            errors.append("Stale compiled lion artwork; regenerate with scripts/build_lion_art.py")
+    if preview.exists():
+        renderer_hash = hashlib.sha256((root / "src/hard_implementation/branding.py").read_bytes()).hexdigest()
+        if f"Renderer SHA256: {renderer_hash}" not in preview.read_text(encoding="utf-8"):
+            errors.append("Stale terminal artwork preview; regenerate with scripts/preview_banner.py")
     for name, section in (("pyproject.toml", "[project]"), ("uv.lock", 'name = "hard-implementation"')):
         text = (root / name).read_text(encoding="utf-8").split(section, 1)[-1]
         match = re.search(r'(?m)^version = "([^"]+)"', text)

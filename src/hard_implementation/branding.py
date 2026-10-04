@@ -2,12 +2,6 @@
 from rich.align import Align
 from rich.text import Text
 
-from base64 import b85decode
-from functools import lru_cache
-import zlib
-
-from .lion_art import IMAGES, PALETTE
-
 SIGNATURE_COLOR = "#a855f7"
 
 HARD = (
@@ -34,31 +28,48 @@ ASCII_LION = (
     "    'Ww._____.wW'",
 )
 
+# Hand-drawn glyphs use the same block lettering as HARD and ALAEEB.
+LION = (
+    '                   ▄▄▄████████▄▄▄',
+    '           ▄▄████▀▀              ▀▀████▄▄',
+    '       ▄▄██▀                            ▀██▄▄',
+    '     ▄██▀    ▄████▄              ▄████▄    ▀██▄',
+    '   ▄██▀     ██▀  ▀██            ██▀  ▀██     ▀██▄',
+    '  ███       ██    ▀██▄▄▄▄▄▄▄▄▄▄██▀    ██       ███',
+    ' ▄██▀     ▄██▀                        ▀██▄     ▀██▄',
+    '███      ██▀                            ▀██      ███',
+    ' ▀██▄    ██   ▀██▄▄              ▄▄██▀   ██    ▄██▀',
+    '▄██▀     ██     ▀███▄          ▄███▀     ██     ▀██▄',
+    '███      ██       ▀▀            ▀▀       ██      ███',
+    ' ▀██▄    ██          ▄████████▄          ██    ▄██▀',
+    '▄██▀    ▄██  ▄▄▄▄▄▄  ▀████████▀  ▄▄▄▄▄▄  ██▄    ▀██▄',
+    '███   ══██▀ ██▀   ▀██▄ ▀████▀ ▄██▀   ▀██ ▀██══   ███',
+    ' ▀██▄ ══██  ██     ▀████████████▀     ██  ██══ ▄██▀',
+    '▄██▀  ══██   ▀██▄▄▄▄██▀▀████▀▀██▄▄▄▄██▀   ██══  ▀██▄',
+    '███      ██      ██▀█          █▀██      ██      ███',
+    ' ▀██▄     ██     ██ █          █ ██     ██     ▄██▀',
+    '▄██▀      ██     ██ ▀          ▀ ██     ██      ▀██▄',
+    '███        ██    ██              ██    ██        ███',
+    ' ▀██▄       ██   ██  ▄▄▄▄▄▄▄▄▄▄  ██   ██       ▄██▀',
+    '  ▀██▄      ▀██  ▀██▄▀▀▀▀▀▀▀▀▀▀▄██▀  ██▀      ▄██▀',
+    '    ▀██▄▄     ▀██  ▀████████████▀  ██▀     ▄▄██▀',
+    '       ▀██▄▄    ▀██▄▄          ▄▄██▀    ▄▄██▀',
+    '          ▀████▄▄   ▀▀████████▀▀   ▄▄████▀',
+    '                ▀▀████▄▄████▄▄████▀▀',
+)
+LION_WIDTH = max(map(len, LION))
+BRAND_GRADIENT = ("#28d9e6", "#23bed5", "#329de1", "#4380d8", "#5964c4", "#8352b0")
 
-@lru_cache(maxsize=3)
-def lion_lines(size):
-    pixels = zlib.decompress(b85decode(IMAGES[size]))
-    lines = []
-    for y in range(0, size, 2):
-        line = Text()
-        for x in range(size):
-            top, bottom = pixels[y * size + x], pixels[(y + 1) * size + x]
-            if top == bottom == 0:
-                line.append(" ")
-            elif top == 0:
-                line.append("▄", style=PALETTE[bottom])
-            elif bottom == 0:
-                line.append("▀", style=PALETTE[top])
-            else:
-                line.append("▀", style=f"{PALETTE[top]} on {PALETTE[bottom]}")
-        lines.append(line)
-    return tuple(lines)
+
+def lion_lines():
+    return tuple(Text(row.ljust(LION_WIDTH), style="bold " +
+                      BRAND_GRADIENT[index * len(BRAND_GRADIENT) // len(LION)])
+                 for index, row in enumerate(LION))
 
 
 def wordmark_lines(version):
     lines = [Text("HARD IMPLEMENTATION", style="bold #28d9e6"), Text()]
-    colors = ("#28d9e6", "#23bed5", "#329de1", "#4380d8", "#5964c4", "#8352b0")
-    lines.extend(Text(row, style="bold " + color) for row, color in zip(HARD, colors))
+    lines.extend(Text(row, style="bold " + color) for row, color in zip(HARD, BRAND_GRADIENT))
     lines.append(Text())
     for row in range(5):
         glyphs = " ".join(SIGNATURE[letter][row] for letter in "ALAEEB")
@@ -72,10 +83,9 @@ def wordmark_lines(version):
 def render_banner(console, version):
     console.print()
     unicode_ok = "utf" in (console.encoding or "").lower()
-    if unicode_ok and console.color_system is not None and not console.no_color and console.width >= 42:
-        size = 64 if console.width >= 104 else (48 if console.width >= 88 else 36)
-        lion = lion_lines(size)
-        if console.width >= size + 39:
+    if unicode_ok and console.color_system is not None and not console.no_color and console.width >= LION_WIDTH:
+        lion = lion_lines()
+        if console.width >= LION_WIDTH + 40:
             words = wordmark_lines(version)
             # Padding keeps both wordmarks intact rather than wrapping the artwork.
             offset = max(0, (len(lion) - len(words)) // 2)
@@ -83,7 +93,7 @@ def render_banner(console, version):
                 word_index = index - offset
                 right = words[word_index].copy() if 0 <= word_index < len(words) else Text()
                 right.align("center", 36)
-                line = Text.assemble(left, "   ", right)
+                line = Text.assemble(left, "    ", right)
                 console.print(Align.center(line), soft_wrap=True)
         else:
             for line in lion:

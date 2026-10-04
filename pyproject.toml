@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hard-implementation"
-version = "1.3.2"
+version = "1.3.3"
 description = "Universal implementation with security review, verification, recovery and guided agent setup"
 readme = "README.md"
 requires-python = ">=3.10"

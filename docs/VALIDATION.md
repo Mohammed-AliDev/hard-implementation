@@ -2,7 +2,7 @@
 
 Validation date: **2026-10-04 (Africa/Cairo)**.
 
-## Current package checks (v1.3.2)
+## Current package checks (v1.3.3)
 
 - Original author's attachment preserved byte-for-byte: 55,439 bytes, 2,397 lines,
   46 numbered sections (0–44 and 4A). SHA-256 and section index are in
@@ -20,6 +20,23 @@ The package suite covers install/reinstall/uninstall, selecting supported agents
 preserving unrelated and pre-existing identical files, refusing modified managed
 files and conflicting destinations, parent/symlink checks, payload corruption,
 record path validation, ordinary write-failure rollback, and honest task inventory.
+
+## Glyph lion release (1.3.3)
+
+- The current 52-column, 26-row lion is hand-drawn Unicode block text in the same
+  lettering style and cyan/violet gradient as HARD; ALAEEB remains purple.
+- Actual 112-column dark/light previews and the 80-column centered layout were
+  inspected. The preview uses a monospace font to keep glyph spacing consistent.
+- Manual width checks covered 20, 23, 24, 40, 42, 51, 52, 53, 60, 75, 80, 91, 92,
+  93, 104, 112 and 160 columns with truecolor, 256-color, monochrome and NO_COLOR.
+  All rows fit their width. ASCII, CP1252 and UTF-8 output remained encodable.
+- All 57 package tests passed locally. The preview's renderer fingerprint is
+  checked alongside its version, replacing the retired image compiler hash check.
+- Wheel/source archives built successfully; isolated installed-wheel rendering
+  passed. The wheel has no old image decoder; the source archive preserves the
+  previous PNG and prompt documentation.
+- Original workflow bytes, security/system references and native commands remain
+  unchanged. No new model execution was run for this decorative change.
 
 ## Realistic lion release (1.3.2)
 

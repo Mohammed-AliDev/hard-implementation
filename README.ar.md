@@ -39,13 +39,13 @@ VS Code محرّر بيشغّل إضافات مختلفة؛ الدعم المس�
 لو أول مرة، ومعاك [uv](https://docs.astral.sh/uv/getting-started/installation/) وGit:
 
 ```bash
-uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.2
+uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.3
 ```
 
 لو برنامج `hard` متثبت عندك من قبل:
 
 ```bash
-uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.2
+uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.3
 ```
 
 ده بينزّل برنامج `hard` مرة واحدة، والمهارة كاملة موجودة جواه. مصدر الحزمة GitHub.
@@ -63,10 +63,11 @@ hard init
 بالـSpace، أو **All supported agents** علشان تختار الكل. وبعدها تختار المشروع ده
 بس، أو كل مشاريعك على الجهاز. هتشوف المكان والاختيارات، وتأكد التثبيت.
 
-البداية بقت بأسد بيزأر مبني على صورة أكثر واقعية، مع **HARD** وتوقيع **ALAEEB**
-البنفسجي. الفرو والعينين والفك فيهم تفاصيل أكتر؛ العرض الكبير بيحتفظ بتفاصيل
-أوضح، وفيه أحجام أصغر للشاشات الضيقة ونسخة بسيطة عند غياب الألوان والرموز.
-[الصورة الأصلية وطريقة التوليد والعرض](docs/BRANDING.md). طريقة التنفيذ والمهارة كاملة زي ما هي.
+البداية بأسد بيزأر مرسوم برموز التيرمنال الكبيرة بنفس طريقة كتابة **HARD**
+وتدرّج ألوانها، مع عرف حوالين الوش وأنياب وشارب. توقيع **ALAEEB** لسه بنفسجي.
+في الشباك الواسع الأسد والكتابة جنب بعض؛ في الشباك الأصغر الأسد فوق الكتابة،
+وفيه نسخة بسيطة عند غياب الألوان أو دعم الرموز.
+[شكل الرسم وأحجام العرض](docs/BRANDING.md). طريقة التنفيذ والمهارة كاملة زي ما هي.
 
 للتثبيت المباشر للأدوات كلها من غير أسئلة:
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.3
+
+- Draw the roaring lion directly from Unicode block glyphs in the same lettering style and cyan/violet gradient as HARD; retain the purple ALAEEB signature.
+- Use a 52-column mane/face/fangs illustration with side-by-side and centered layouts; preserve narrow, monochrome, legacy and JSON behavior.
+- Align the SVG preview with a monospace font and check its renderer fingerprint as well as its version.
+- Remove the previous image compiler/compressed runtime pixels from the current package; preserve the v1.3.2 source PNG and generation prompt as historical artwork. Full workflow, security and host/system bindings are unchanged.
+
 ## 1.3.2
 
 - Replace the stylized lion with terminal artwork compiled from a generated photorealistic roaring lion, including natural eyes, layered fur, nose, teeth and mouth detail.

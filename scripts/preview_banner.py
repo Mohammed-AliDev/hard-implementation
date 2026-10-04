@@ -1,5 +1,6 @@
 """Export the actual Rich terminal banner as an SVG, without starting setup."""
 import argparse
+import hashlib
 import io
 from pathlib import Path
 import re
@@ -32,8 +33,11 @@ def main():
     render_banner(console, __version__)
     svg = console.export_svg(title="HARD IMPLEMENTATION / ALAEEB", theme=theme)
     # Keep the preview self-contained; use the viewer's monospace font.
+    svg = svg.replace("font-family: Fira Code, monospace;", "font-family: DejaVu Sans Mono, monospace;")
     svg = re.sub(r"@font-face\s*\{.*?\}", "", svg, flags=re.S)
     svg = "\n".join(line.rstrip() for line in svg.splitlines()) + "\n"
+    renderer_hash = hashlib.sha256((ROOT / "src/hard_implementation/branding.py").read_bytes()).hexdigest()
+    svg += f"<!-- Renderer SHA256: {renderer_hash} -->\n"
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_bytes(svg.encode("utf-8"))
     print(args.output)
