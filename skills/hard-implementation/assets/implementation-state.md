@@ -1,6 +1,7 @@
 # Implementation checkpoint
 
-- Target Spec:
+- Native system / version:
+- Target feature / change / track / plan:
 - Repository / branch:
 - Baseline HEAD / last observed HEAD:
 - Execution tier and available capabilities:
@@ -8,9 +9,15 @@
 - Run status: IN_PROGRESS | COMPLETE | BLOCKED | INTERRUPTED
 - Updated at (with timezone):
 
+## System map
+
+Record exact requirements and design/plan sources, native queue files/IDs,
+approval/status gates, board/index locations, allowed native update mechanism,
+and checkpoint path. Preserve the existing system; this is not a new backlog.
+
 ## Task reconciliation
 
-Link to the authoritative `tasks.md`. Record verified IDs and their evidence;
+Link to the authoritative native task queue (tasks, embedded plan, or work packages). Record verified IDs and their evidence;
 record in-progress IDs, remaining prerequisites, and stale evidence. Do not
 duplicate the entire task description list.
 

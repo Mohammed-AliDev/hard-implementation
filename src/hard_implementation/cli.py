@@ -18,7 +18,7 @@ from rich.tree import Tree
 from . import __version__
 from .core import bundled_source, installer
 
-AGENTS = {"codex": "Codex", "opencode": "OpenCode", "both": "Codex + OpenCode"}
+AGENTS = {key: info["label"] for key, info in installer.AGENTS.items()}
 LOGO = """██╗  ██╗ █████╗ ██████╗ ██████╗
 ██║  ██║██╔══██╗██╔══██╗██╔══██╗
 ███████║███████║██████╔╝██║  ██║
@@ -33,7 +33,7 @@ def banner(console):
     if console.width >= 48 and unicode_ok:
         console.print(Align.center(Text(LOGO, style="bold cyan")))
     console.print(Align.center(Text("HARD IMPLEMENTATION", style="bold magenta")))
-    console.print(Align.center(Text(f"Complete Spec Kit execution • v{__version__}", style="dim")))
+    console.print(Align.center(Text(f"Universal implementation • v{__version__}", style="dim")))
     console.print()
 
 
@@ -67,8 +67,13 @@ def choose(console, title, choices, default):
 def normalize_agents(values):
     agents = set()
     for value in values or []:
-        agents.update(("codex", "opencode") if value == "both" else (value,))
+        agents.update(installer.AGENTS if value == "all" else (("codex", "opencode") if value == "both" else (value,)))
     return sorted(agents)
+
+
+def hermes_home(root):
+    configured = os.environ.get("HERMES_HOME")
+    return Path(configured).expanduser().resolve() if configured else root / ".hermes"
 
 
 def configuration_home(root):
@@ -121,19 +126,22 @@ def next_steps(console, root, scope, agents, result, removed=False):
     console.print(Panel(message, border_style="green", padding=(1, 2)))
     steps = Text()
     if scope == "global":
-        steps.append("1. Open Codex or OpenCode inside the project you want to work on.\n")
+        steps.append("1. Open your selected coding agent inside your target project.\n")
     else:
         steps.append("1. Open your coding agent in this project:\n")
         steps.append(f"   {root}\n", style="cyan")
     steps.append("2. In the agent chat, run:\n")
-    if "codex" in agents:
-        steps.append("   Codex     ", style="bold")
-        steps.append("$hard-implementation\n", style="cyan")
-    if "opencode" in agents:
-        steps.append("   OpenCode  ", style="bold")
-        steps.append("/hard.implement\n", style="cyan")
-    steps.append("3. If there are multiple Specs, add the actual feature path after the command.\n")
-    steps.append("   The feature should already have spec.md, plan.md, and tasks.md.\n")
+    for agent in agents:
+        steps.append(f"   {AGENTS[agent]}  ", style="bold")
+        steps.append(installer.AGENTS[agent]["command"] + "\n", style="cyan")
+    steps.append("3. If there are multiple features, add the actual target path after the command.\n")
+    steps.append("   The agent discovers your existing specification system and native task queue.\n")
+    if "hermes" in agents and scope == "project":
+        steps.append("Hermes: from this Git repository, run hermes skills trust to enable project skills.\n", style="yellow")
+    if "zcode" in agents:
+        steps.append("ZCode: Settings > Skills > Refresh, then enable the skill if needed.\n", style="yellow")
+    if "vscode" in agents:
+        steps.append("VS Code: use GitHub Copilot Agent chat; another extension uses its own agent integration.\n", style="dim")
     steps.append("Restart an already-open agent session if the new skill or command is missing.", style="dim")
     console.print(Panel(steps, title="[bold cyan]Next steps[/bold cyan]", border_style="cyan", padding=(1, 2)))
     console.print("Check installation anytime: [bold]hard status[/bold]")
@@ -141,22 +149,24 @@ def next_steps(console, root, scope, agents, result, removed=False):
 
 
 def inspect(root, scope, config_home):
-    path = installer.destination(root, installer.STATE, scope, config_home)
+    path = installer.destination(root, installer.STATE, scope, config_home, hermes_home(root) if scope == "global" else None)
     if not path.exists():
         return {"scope": scope, "root": str(root), "installed": False, "problems": []}
-    state = installer.load_state(root, scope, config_home)
+    state = installer.load_state(root, scope, config_home, hermes_home(root) if scope == "global" else None)
     problems = []
     for name, sha in state["files"].items():
-        target = installer.destination(root, name, scope, config_home)
+        target = installer.destination(root, name, scope, config_home, hermes_home(root) if scope == "global" else None)
         if not target.is_file():
             problems.append(f"Missing: {target}")
         elif hashlib.sha256(target.read_bytes()).hexdigest() != sha:
             problems.append(f"Modified: {target}")
     # Original preservation is checked even when a pre-existing file is unowned.
-    original = installer.destination(root, installer.DEST_PREFIX + "references/workflow.md", scope, config_home)
     expected = "3302000990ac049cc068a63927dac29757be8bd8031bb3fb9d5d7c1c715035c7"
-    if not original.is_file() or hashlib.sha256(original.read_bytes()).hexdigest() != expected:
-        problems.append("The complete original workflow is missing or changed")
+    for prefix in installer.skill_prefixes(state["agents"], scope):
+        original = installer.destination(root, prefix + "references/workflow.md", scope, config_home,
+                                         hermes_home(root) if scope == "global" else None)
+        if not original.is_file() or hashlib.sha256(original.read_bytes()).hexdigest() != expected:
+            problems.append(f"The complete original workflow is missing or changed: {original}")
     return {"scope": scope, "root": str(root), "installed": True,
             "version": state.get("version"), "agents": state["agents"],
             "problems": problems}
@@ -199,20 +209,32 @@ def run_setup(args, console):
         banner(console)
     if not agents and args.command == "init":
         if not interactive:
-            raise ValueError("Choose --agent codex, --agent opencode, or --agent both. Example: hard init --here --agent both --yes")
-        detected = [a for a in ("codex", "opencode") if shutil.which(a)]
-        default = "both" if len(detected) != 1 else detected[0]
-        value = choose(console, "Which coding agent do you use?", [
-            ("Codex" + ("  (detected)" if "codex" in detected else ""), "codex"),
-            ("OpenCode" + ("  (detected)" if "opencode" in detected else ""), "opencode"),
-            ("Both — Codex + OpenCode", "both"),
-        ], default)
-        agents = normalize_agents([value])
+            raise ValueError("Choose a supported --agent or --agent all. Example: hard init --here --agent both --yes")
+        detected = []
+        for a, info in installer.AGENTS.items():
+            executable = shutil.which(info["cli"])
+            if executable and not (a == "commandcode" and "system32" in executable.lower()):
+                detected.append(a)
+        default = detected[0] if len(detected) == 1 else "both"
+        choices = [(label + ("  (detected)" if a in detected else ""), a) for a, label in AGENTS.items()]
+        choices += [("Codex + OpenCode (original pair)", "both"), ("All supported agents", "all"),
+                    ("Choose several agents…", "select")]
+        value = choose(console, "Which coding agent do you use?", choices, default)
+        if value == "select":
+            selected = questionary.checkbox("Select agents (Space to toggle, Enter to continue)",
+                choices=[questionary.Choice(label, value=a, checked=a in detected) for a, label in AGENTS.items()]).ask()
+            if selected is None:
+                raise KeyboardInterrupt
+            if not selected:
+                raise ValueError("Select at least one coding agent.")
+            agents = sorted(selected)
+        else:
+            agents = normalize_agents([value])
     root, scope = targets(args, console, interactive)
     config_home = configuration_home(root) if scope == "global" else None
     remove = args.command == "uninstall"
     if remove:
-        old = installer.load_state(root, scope, config_home)
+        old = installer.load_state(root, scope, config_home, hermes_home(root) if scope == "global" else None)
         if not old["agents"]:
             if args.json:
                 print(json.dumps({"installed": False, "scope": scope, "root": str(root)}))
@@ -221,7 +243,7 @@ def run_setup(args, console):
             return 0
         agents = old["agents"]
     elif root.is_dir():
-        agents = sorted(set(agents) | set(installer.load_state(root, scope, config_home)["agents"]))
+        agents = sorted(set(agents) | set(installer.load_state(root, scope, config_home, hermes_home(root) if scope == "global" else None)["agents"]))
     if not args.json:
         setup_panel(console, root, scope, agents, args.dry_run)
     if not args.yes and not args.dry_run:
@@ -253,10 +275,10 @@ def run_setup(args, console):
             tree.add(Text(mark + detail, style="green"))
     try:
         if args.json:
-            result = installer.install(root, source, agents, args.dry_run, remove, scope, config_home)
+            result = installer.install(root, source, agents, args.dry_run, remove, scope, config_home, hermes_home=hermes_home(root) if scope == "global" else None)
         else:
             with console.status("Verifying workflow and installation…", spinner="dots"):
-                result = installer.install(root, source, agents, args.dry_run, remove, scope, config_home, progress)
+                result = installer.install(root, source, agents, args.dry_run, remove, scope, config_home, progress, hermes_home=hermes_home(root) if scope == "global" else None)
             console.print(tree)
     except (OSError, ValueError):
         if created and not any(root.iterdir()):
@@ -273,7 +295,7 @@ def run_setup(args, console):
 
 
 def parser():
-    result = argparse.ArgumentParser(prog="hard", description="Complete Spec Kit implementation, with guided setup for Codex and OpenCode.")
+    result = argparse.ArgumentParser(prog="hard", description="Universal implementation, with guided setup for coding agents.")
     result.add_argument("--version", action="version", version=f"Hard Implementation {__version__}")
     commands = result.add_subparsers(dest="command")
     for name, help_text in (("init", "Choose your agent and install into a project or all projects"),
@@ -286,10 +308,13 @@ def parser():
         scopes.add_argument("--global", dest="global_scope", action="store_true", help="Make available in all projects on this computer")
         command.add_argument("--json", action="store_true", help="Machine-readable output")
         if name != "status":
-            command.add_argument("--agent", action="append", choices=("codex", "opencode", "both"))
+            command.add_argument("--agent", action="append", choices=(*AGENTS, "both", "all"))
             command.add_argument("--yes", "-y", action="store_true", help="Non-interactive mode; explicitly choose scope and agent")
             command.add_argument("--dry-run", action="store_true", help="Preview without writing files")
             command.add_argument("--source", type=Path, help="Use a local release checkout (development/offline)")
+    discovery = commands.add_parser("detect", help="List existing specification systems and feature candidates")
+    discovery.add_argument("path", nargs="?", default=".")
+    discovery.add_argument("--json", action="store_true")
     return result
 
 
@@ -302,6 +327,27 @@ def main(argv=None, console=None):
             banner(console)
             cli.print_help()
             console.print("\nStart guided setup: [bold cyan]hard init[/bold cyan]")
+            return 0
+        if args.command == "detect":
+            import importlib.util
+            script = bundled_source() / "skills/hard-implementation/scripts/discover_system.py"
+            spec = importlib.util.spec_from_file_location("hard_discovery", script)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            report = module.discover(Path(args.path).expanduser().resolve())
+            if args.json:
+                print(json.dumps(report, indent=2))
+            else:
+                banner(console)
+                table = Table(title="Existing specification workflows", expand=True)
+                for label in ("System", "Target", "Native queue", "Readiness"):
+                    table.add_column(label, overflow="fold")
+                for item in report["candidates"]:
+                    table.add_row(item["system"], item["target"], ", ".join(item["queue"]),
+                                  "Inspect native gates" if item["ready"] else "Missing: " + ", ".join(item["missing"]))
+                console.print(table)
+                console.print(Text(report["selection"], style="yellow"))
+                console.print("Detection reads files only; no agent or workflow settings are changed.")
             return 0
         return show_status(args, console) if args.command == "status" else run_setup(args, console)
     except KeyboardInterrupt:

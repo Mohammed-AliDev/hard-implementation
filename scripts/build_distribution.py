@@ -16,7 +16,7 @@ def main():
                     if p.is_file() and "__pycache__" not in p.parts and p.suffix != ".pyc"),
                    key=lambda p: p.relative_to(ROOT).as_posix())
     paths += [ROOT / "adapters/opencode/hard.implement.md"]
-    data = {"package": "hard-implementation", "version": "1.1.0", "files": {
+    data = {"package": "hard-implementation", "version": "1.2.0", "files": {
         p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}}
     (ROOT / "distribution.json").write_bytes((json.dumps(data, indent=2) + "\n").encode("utf-8"))
     original_lines = raw.decode().splitlines()
@@ -31,7 +31,8 @@ def main():
              f"- SHA-256: `{ORIGINAL_SHA256}`", f"- Bytes: {len(raw)}",
              f"- Numbered sections: {len(headings)} (0–44 plus 4A)", "",
              "`SKILL.md` is a loading entrypoint. `references/execution.md` adds persistence",
-             "and host adaptation; it does not replace the original workflow. Every run",
+             "and host adaptation; `references/systems.md` adds native-system role bindings.",
+             "They do not replace the original workflow. Every run",
              "is instructed to read the complete original before implementation.", "",
              "| Original section | Line in preserved file |", "|---|---|"]
     lines += [f"| {title} | {number} |" for number, title in headings]

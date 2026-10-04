@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.0
+
+- Make the public entrypoint universal across Spec Kit, Kiro Specs, cc-sdd, Spec Workflow MCP, OpenSpec, Spec Kitty, Conductor, and Superpowers.
+- Add native artifact-role discovery, queue/status/approval guidance, and a read-only `hard detect` command without migrating existing files.
+- Add installation support for Claude Code, Hermes, Command Code, ZCode, Antigravity, Warp, Pi, and VS Code/Copilot alongside Codex and OpenCode.
+- Add custom agent multi-selection and `--agent all`; retain `both` as the original Codex/OpenCode pair.
+- Preserve the full original workflow byte-for-byte; native copies contain all resources.
+- Add native Markdown task inventory including Conductor in-progress notation; keep strict Spec Kit inventory as the default.
+- Respect Hermes profiles and protect external paths during updates/removal.
+
 ## 1.1.0
 
 - Ship an installable `hard` command with the full workflow bundled in wheel and source distributions.

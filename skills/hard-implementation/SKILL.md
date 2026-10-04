@@ -1,12 +1,12 @@
 ---
 name: hard-implementation
-description: Execute an existing Spec Kit implementation plan through dependency-aware work, risk-based review, local verification, and resumable progress. Use when implementing or resuming a feature with spec.md, plan.md, and tasks.md.
+description: Implement or resume an existing specification and native task queue through dependency-aware execution, risk-based review, verification, and durable recovery. Supports Spec Kit, Kiro, cc-sdd, Spec Workflow MCP, OpenSpec, Spec Kitty, Conductor, and Superpowers.
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
-# Hard Implementation
+# Hard Implementation — Universal
 
 Requires a coding agent with repository read/write and terminal access. Python
 3.10+ is optional for the task-audit helper. Other capabilities are discovered.
@@ -21,10 +21,13 @@ the workflow.
    through section 44. It contains all original sections, including 4A. If a read
    is truncated, continue in bounded chunks until every section has been read.
    Do not implement from this entrypoint alone.
-2. Read [the execution and recovery companion](references/execution.md).
-3. Resolve the target Spec from the user's arguments or current context using
+2. Read [the native-system compatibility map](references/systems.md). Discover the
+   active system and bind original Spec Kit filenames to its native roles. Preserve
+   every original engineering/review rule; adapt artifact names and status protocols.
+3. Read [the execution and recovery companion](references/execution.md).
+4. Resolve the target feature from the user's arguments or current context using
    section 0. Read applicable repository instructions and the actual Spec files.
-4. Discover capabilities, establish the baseline, and classify the execution tier
+5. Discover capabilities, establish the baseline, and classify the execution tier
    as prescribed in the original. Apply its applicability rules; no section has
    been removed or replaced by a shorter workflow.
 
@@ -34,10 +37,14 @@ than pretending the full workflow was loaded.
 
 ## Invocation
 
-- **Codex:** `$hard-implementation specs/001-feature`
-- **OpenCode:** `/hard.implement specs/001-feature` with the supplied command
-  adapter installed, or ask OpenCode to use the `hard-implementation` skill.
-- The argument is ordinary text identifying the target Spec and any user
+- **Codex / ZCode:** `$hard-implementation`.
+- **OpenCode:** `/hard.implement` with the supplied adapter, or request the skill.
+- **Claude Code / Hermes / Command Code / Warp / Antigravity / VS Code Copilot:**
+  `/hard-implementation` (Hermes project skills require native project trust).
+- **Pi:** `/skill:hard-implementation`.
+- Append the actual feature/change/track/plan path when needed. Each host loads this
+  same full workflow. Discovery, model access, and permissions remain host-specific.
+- The argument is ordinary text identifying the native target and any user
   constraints. Do not execute it as a shell command. Without an argument, use
   section 0 to resolve an unambiguous target.
 - Repeating the same invocation resumes the same feature: reconcile saved progress
@@ -62,11 +69,15 @@ or treat compaction as feature completion.
 
 ## Helpers
 
-`scripts/audit_tasks.py` reads Spec Kit task checkboxes and emits an inventory:
+`scripts/audit_tasks.py` reads native Markdown task checkboxes and emits an inventory:
 
 ```bash
 python3 /path/to/skill/scripts/audit_tasks.py /path/to/spec/tasks.md
 ```
+
+The default format preserves strict Spec Kit T IDs. For other Markdown queues,
+add `--format markdown`; Conductor `[~]` remains open/in progress. For work-package
+lanes or MCP boards, use native tools/manual reconciliation.
 
 Use `--require-complete` for a mechanical all-checkboxes-checked gate. This helper
 does **not** prove implementation, review, acceptance, or test success. Its failure

@@ -2,7 +2,7 @@
 # requires-python = ">=3.10"
 # dependencies = []
 # ///
-"""Install the complete skill into a project for Codex and/or OpenCode."""
+"""Install the complete universal workflow for supported coding agents."""
 import argparse
 import hashlib
 import json
@@ -13,7 +13,7 @@ import tempfile
 from urllib.request import urlopen
 
 REPOSITORY = "Mohammed-AliDev/hard-implementation"
-RELEASE = "v1.1.0"
+RELEASE = "v1.2.0"
 STATE = ".hard-implementation/install.json"
 SKILL_PREFIX = "skills/hard-implementation/"
 DEST_PREFIX = ".agents/skills/hard-implementation/"
@@ -21,8 +21,42 @@ ADAPTER = "adapters/opencode/hard.implement.md"
 COMMAND = ".opencode/commands/hard.implement.md"
 GLOBAL_STATE = ".hard-implementation/global-install.json"
 
+# Native skill discovery; hosts sharing .agents need no duplicate copy.
+AGENTS = {
+    "codex": {"label": "Codex", "command": "$hard-implementation", "cli": "codex"},
+    "opencode": {"label": "OpenCode", "command": "/hard.implement", "cli": "opencode"},
+    "claude": {"label": "Claude Code", "command": "/hard-implementation", "cli": "claude"},
+    "hermes": {"label": "Hermes", "command": "/hard-implementation", "cli": "hermes"},
+    "commandcode": {"label": "Command Code", "command": "/hard-implementation", "cli": "cmd"},
+    "zcode": {"label": "ZCode", "command": "$hard-implementation", "cli": "zcode"},
+    "antigravity": {"label": "Antigravity", "command": "/hard-implementation", "cli": "agy"},
+    "warp": {"label": "Warp", "command": "/hard-implementation", "cli": "warp"},
+    "pi": {"label": "Pi", "command": "/skill:hard-implementation", "cli": "pi"},
+    "vscode": {"label": "VS Code / GitHub Copilot", "command": "/hard-implementation", "cli": "code"},
+}
+NATIVE_PREFIXES = (
+    ".claude/skills/hard-implementation/", ".zcode/skills/hard-implementation/",
+    ".hermes/skills/hard-implementation/", ".gemini/config/skills/hard-implementation/",
+    ".gemini/antigravity-cli/skills/hard-implementation/",
+)
 
-def destination(root, name, scope="project", config_home=None):
+
+def skill_prefixes(agents, scope="project"):
+    prefixes = [DEST_PREFIX]
+    for agent in agents:
+        if agent == "claude":
+            prefixes.append(NATIVE_PREFIXES[0])
+        if agent == "zcode":
+            prefixes.append(NATIVE_PREFIXES[1])
+        if scope == "global" and agent == "hermes":
+            prefixes.append(NATIVE_PREFIXES[2])
+        if scope == "global" and agent == "antigravity":
+            prefixes.extend(NATIVE_PREFIXES[3:])
+    return sorted(set(prefixes))
+
+
+
+def destination(root, name, scope="project", config_home=None, hermes_home=None):
     if scope not in ("project", "global"):
         raise ValueError("Invalid installation scope")
     if scope == "global" and name == STATE:
@@ -34,6 +68,11 @@ def destination(root, name, scope="project", config_home=None):
         if config.is_symlink():
             raise ValueError(f"Refusing symlink configuration directory: {config}")
         return safe_path(config, "opencode/commands/hard.implement.md")
+    if scope == "global" and name.startswith(NATIVE_PREFIXES[2]) and hermes_home is not None:
+        home = Path(hermes_home)
+        if not home.is_absolute() or home.is_symlink():
+            raise ValueError("Hermes home must be an absolute non-symlink directory")
+        return safe_path(home, name[len(".hermes/"):])
     return safe_path(root, name)
 
 
@@ -48,7 +87,7 @@ def valid_relative(name):
 
 
 def managed_name(name):
-    return valid_relative(name) and (name.startswith(DEST_PREFIX) or name == COMMAND)
+    return valid_relative(name) and (any(name.startswith(prefix) for prefix in (DEST_PREFIX, *NATIVE_PREFIXES)) or name == COMMAND)
 
 
 def safe_path(root, name):
@@ -77,8 +116,8 @@ def atomic_write(path, data):
             os.unlink(temp)
 
 
-def load_state(root, scope="project", config_home=None):
-    path = destination(root, STATE, scope, config_home)
+def load_state(root, scope="project", config_home=None, hermes_home=None):
+    path = destination(root, STATE, scope, config_home, hermes_home)
     if not path.exists():
         return {"files": {}, "agents": []}
     state = json.loads(path.read_text(encoding="utf-8"))
@@ -92,8 +131,13 @@ def load_state(root, scope="project", config_home=None):
             raise ValueError("OpenCode configuration location changed; use the recorded location to manage this installation")
     if not isinstance(state.get("files"), dict) or not isinstance(state.get("agents"), list):
         raise ValueError("Invalid installation record")
-    if any(a not in ("codex", "opencode") for a in state["agents"]):
+    if any(a not in AGENTS for a in state["agents"]):
         raise ValueError("Invalid agent in installation record")
+    if not isinstance(state.get("external_paths", {}), dict):
+        raise ValueError("Invalid external installation paths")
+    for name, saved_path in state.get("external_paths", {}).items():
+        if name not in state["files"] or str(destination(root, name, scope, config_home, hermes_home)) != saved_path:
+            raise ValueError("External configuration location changed; restore the recorded location before managing this installation")
     for name, sha in state["files"].items():
         if not managed_name(name) or not isinstance(sha, str) or len(sha) != 64:
             raise ValueError("Invalid managed file in installation record")
@@ -113,7 +157,7 @@ def read_source(source, name):
     return data
 
 
-def payload(source, agents):
+def payload(source, agents, scope="project"):
     manifest = json.loads(read_source(source, "distribution.json"))
     if manifest.get("package") != "hard-implementation" or manifest.get("version") != RELEASE[1:]:
         raise ValueError("Wrong package or release in distribution manifest")
@@ -121,7 +165,8 @@ def payload(source, agents):
     if not isinstance(files, dict) or SKILL_PREFIX + "SKILL.md" not in files:
         raise ValueError("Incomplete distribution manifest")
     required = ["references/workflow.md", "references/execution.md",
-                "assets/implementation-state.md", "scripts/audit_tasks.py"]
+                "assets/implementation-state.md", "scripts/audit_tasks.py",
+                "references/systems.md", "scripts/discover_system.py"]
     if any(SKILL_PREFIX + name not in files for name in required) or ADAPTER not in files:
         raise ValueError("Required workflow resources or adapter missing")
     result = {}
@@ -129,32 +174,33 @@ def payload(source, agents):
         if not valid_relative(name):
             raise ValueError("Invalid source path in distribution manifest")
         if name.startswith(SKILL_PREFIX):
-            destination = DEST_PREFIX + name[len(SKILL_PREFIX):]
+            destinations = [prefix + name[len(SKILL_PREFIX):] for prefix in skill_prefixes(agents, scope)]
         elif name == ADAPTER:
             if "opencode" not in agents:
                 continue
-            destination = COMMAND
+            destinations = [COMMAND]
         else:
             raise ValueError(f"Unexpected package resource: {name}")
         data = read_source(source, name)
         if digest(data) != sha:
             raise ValueError(f"Checksum mismatch: {name}")
-        result[destination] = data
+        for target in destinations:
+            result[target] = data
     return result
 
 
 def install(root, source, agents, dry_run=False, uninstall=False,
-            scope="project", config_home=None, on_event=None):
+            scope="project", config_home=None, on_event=None, hermes_home=None):
     if not root.is_dir():
         raise ValueError(f"Project directory does not exist: {root}")
     notify = on_event or (lambda stage, detail: None)
-    path_for = lambda name: destination(root, name, scope, config_home)
-    old = load_state(root, scope, config_home)
+    path_for = lambda name: destination(root, name, scope, config_home, hermes_home)
+    old = load_state(root, scope, config_home, hermes_home)
     chosen = sorted(set(agents) | set(old["agents"]))
-    if not set(chosen) <= {"codex", "opencode"} or (not chosen and not uninstall):
-        raise ValueError("Choose Codex, OpenCode, or both")
+    if not set(chosen) <= set(AGENTS) or (not chosen and not uninstall):
+        raise ValueError("Choose at least one supported coding agent")
     notify("workflow", "Loading the complete workflow")
-    desired = {} if uninstall else payload(source, chosen)
+    desired = {} if uninstall else payload(source, chosen, scope)
     if scope == "global" and COMMAND in desired:
         skill_path = str(path_for(DEST_PREFIX + "SKILL.md"))
         desired[COMMAND] = desired[COMMAND].replace(
@@ -210,6 +256,8 @@ def install(root, source, agents, dry_run=False, uninstall=False,
                      "agents": chosen, "files": owned, "scope": scope}
             if scope == "global":
                 state["command_path"] = str(path_for(COMMAND))
+            state["external_paths"] = {name: str(path_for(name)) for name in owned
+                                       if name == COMMAND or (scope == "global" and name.startswith(NATIVE_PREFIXES[2]))}
             atomic_write(state_path, (json.dumps(state, indent=2) + "\n").encode())
     except (OSError, ValueError):
         for name, data in reversed(list(before.items())):
@@ -225,8 +273,8 @@ def install(root, source, agents, dry_run=False, uninstall=False,
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--agent", action="append", choices=("codex", "opencode"),
-                        help="Repeat to install both; default: both")
+    parser.add_argument("--agent", action="append", choices=tuple(AGENTS),
+                        help="Repeat to select agents; default: Codex and OpenCode")
     parser.add_argument("--project", type=Path, default=Path.cwd())
     parser.add_argument("--source", type=Path, help="Use a local release checkout (offline)")
     parser.add_argument("--dry-run", action="store_true")
@@ -248,12 +296,10 @@ def main():
     else:
         print(f"Project: {args.project.resolve()}")
         print(f"Files written: {len(result['write'])}; removed: {len(result['remove'])}")
-    if not args.dry_run and not args.uninstall:
+    if not args.json and not args.dry_run and not args.uninstall:
         print("Installed Hard Implementation " + RELEASE)
-        if "codex" in result["agents"]:
-            print("Codex: $hard-implementation specs/your-feature")
-        if "opencode" in result["agents"]:
-            print("OpenCode: /hard.implement specs/your-feature")
+        for agent in result["agents"]:
+            print(f"{AGENTS[agent]['label']}: {AGENTS[agent]['command']}")
         print("Restart the agent if the new skill/command is not listed.")
     return 0
 

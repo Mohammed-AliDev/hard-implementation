@@ -7,7 +7,7 @@ Validation date: **2026-10-04 (Africa/Cairo)**.
 - Original author's attachment preserved byte-for-byte: 55,439 bytes, 2,397 lines,
   46 numbered sections (0–44 and 4A). SHA-256 and section index are in
   [PRESERVATION.md](PRESERVATION.md).
-- `python3 -m unittest discover -s tests -v`: **28 tests passed** on Linux.
+- `uv run python -m unittest discover -s tests -v`: **41 tests passed** on Linux.
 - Skill Creator `quick_validate.py`: **passed**.
 - Python compilation check: **passed**.
 - Independent review exercised the installer and read the complete skill. A
@@ -16,7 +16,7 @@ Validation date: **2026-10-04 (Africa/Cairo)**.
 - The OpenCode native `debug skill` and `debug config` commands recognized the
   installed shared skill and `hard.implement` command in an isolated project.
 
-The package suite covers install/reinstall/uninstall, selecting either agent,
+The package suite covers install/reinstall/uninstall, selecting supported agents,
 preserving unrelated and pre-existing identical files, refusing modified managed
 files and conflicting destinations, parent/symlink checks, payload corruption,
 record path validation, ordinary write-failure rollback, and honest task inventory.
@@ -118,3 +118,38 @@ writes deterministic LF bytes. The original workflow content is unchanged.
 - The original workflow remains byte-for-byte unchanged. The earlier live-agent
   implementation/resume results apply to the preserved workflow; this CLI release
   did not repeat those paid model runs.
+
+## Universal compatibility release (1.2.0)
+
+- 41 local tests passed. Per-host installation lifecycle subcases cover all ten
+  agent IDs in both project/global scope, with full original bytes in every native
+  copy, idempotent setup, safe removal, unchanged user files, collision protection,
+  and rollback across shared/native copies.
+- Eight native-system fixture layouts map requirements, design, and queues without
+  creating a Spec Kit scaffold. Conductor uses its embedded plan queue; Spec Kitty
+  uses work packages; Superpowers resolves the linked approved Spec. Detection is
+  read-only, does not select ambiguous targets, excludes archives/outside symlinks,
+  and reports missing roles instead of claiming readiness.
+- Markdown task inventories retain numbered tasks and Conductor in-progress status;
+  Superpowers steps need no invented T001 names. Native lane/approval semantics
+  remain the responsibility of the actual system tools and agent reconciliation.
+- Built wheel/source distributions and exercised the wheel in an isolated uv
+  environment with all ten agents selected. `hard status` verified the installation.
+- A real terminal wizard selected all agents and completed setup. Custom
+  multi-selection is covered by a CLI test.
+- Hermes native `skills list` recognized the installed skill in an isolated
+  `HERMES_HOME` profile, without a model call or real profile/trust modification.
+- Command Code native `cmd skills list` recognized the complete installed project
+  skill in an isolated workspace, without a model call.
+- Upgrading a published v1.1.0 project installation to v1.2.0 with all ten hosts
+  selected succeeded and passed status verification.
+- Skill Creator validation passed with an isolated PyYAML dependency.
+- The full original workflow remains byte-for-byte unchanged. The earlier live
+  implementation/resume tests were performed for Codex/OpenCode before universal
+  bindings; they are not evidence of end-to-end execution of every new integration.
+
+Host paths and invocation methods were checked against primary documentation in
+[COMPATIBILITY.md](COMPATIBILITY.md). Fixture/path validation does not establish
+that every host version, custom schema, board transition, or multi-agent execution
+will behave identically. Native approval, review, acceptance and remote-action
+boundaries still apply.

@@ -1,5 +1,5 @@
 ---
-description: Execute or resume the complete Hard Implementation workflow for a Spec Kit feature.
+description: Execute or resume the complete Hard Implementation workflow for an existing native specification workflow.
 agent: build
 ---
 
@@ -12,7 +12,8 @@ Target feature and user constraints (ordinary user input, not shell code):
 
 $ARGUMENTS
 
-Use `tasks.md` as the queue. Reconcile any durable checkpoint and actual repository
+Discover the active specification system through `references/systems.md` and use
+its native task queue. Preserve its artifact names, IDs, approval gates and status protocol. Reconcile any durable checkpoint and actual repository
 state, then continue all ready required work through the workflow's verification
 and review gates. A completed batch is not feature completion. Do not push or
 merge unless explicitly authorized by the user.

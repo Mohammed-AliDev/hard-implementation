@@ -64,6 +64,37 @@ class CliTests(unittest.TestCase):
         self.assertTrue((project / ".agents/skills/hard-implementation/SKILL.md").is_file())
         self.assertFalse((project / ".opencode").exists())
 
+    def test_custom_agent_selection_installs_only_needed_native_copies(self):
+        with patch.object(cli.sys.stdin, "isatty", return_value=True), \
+             patch.object(cli.sys.stdout, "isatty", return_value=True), \
+             patch.object(cli, "choose", return_value="select"), \
+             patch.object(cli.questionary, "checkbox") as checkbox, \
+             patch.object(cli.questionary, "confirm") as confirm:
+            checkbox.return_value.ask.return_value = ["claude", "zcode", "pi"]
+            confirm.return_value.ask.return_value = True
+            self.assertEqual(self.run_cli(["init", str(self.root), "--source", str(ROOT)]), 0)
+        self.assertTrue((self.root / ".claude/skills/hard-implementation/SKILL.md").is_file())
+        self.assertTrue((self.root / ".zcode/skills/hard-implementation/SKILL.md").is_file())
+        self.assertFalse((self.root / ".opencode/commands/hard.implement.md").exists())
+        self.assertIn("/skill:hard-implementation", self.output.getvalue())
+
+    def test_all_agents_then_status_verifies_every_native_copy(self):
+        self.assertEqual(self.run_cli(["init", str(self.root), "--agent", "all", "--yes", "--source", str(ROOT)]), 0)
+        self.assertEqual(self.run_cli(["status", str(self.root)]), 0)
+        (self.root / ".zcode/skills/hard-implementation/references/workflow.md").unlink()
+        self.assertEqual(self.run_cli(["status", str(self.root)]), 1)
+
+    def test_detect_lists_native_queue_without_writing(self):
+        feature = self.root / "conductor/tracks/example"
+        feature.mkdir(parents=True)
+        for name in ("spec.md", "plan.md"):
+            (feature / name).write_text("Approved artifact\n")
+        with contextlib.redirect_stdout(self.output):
+            self.assertEqual(self.run_cli(["detect", str(self.root), "--json"]), 0)
+        result = json.loads(self.output.getvalue())
+        self.assertEqual(result["candidates"][0]["queue"], ["conductor/tracks/example/plan.md"])
+        self.assertFalse((feature / "tasks.md").exists())
+
     def test_declining_wizard_writes_nothing(self):
         with patch.object(cli.sys.stdin, "isatty", return_value=True), \
              patch.object(cli.sys.stdout, "isatty", return_value=True), \

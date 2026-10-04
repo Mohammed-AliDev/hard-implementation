@@ -1,209 +1,174 @@
-# Hard Implementation
+# Hard Implementation — Universal
 
-**The complete Spec Kit implementation workflow for Codex and OpenCode.**
+**The complete implementation, review, verification, and recovery workflow for
+existing specification systems and coding agents.**
 
-Execute an existing feature through dependency-aware implementation, risk-based
-review, local verification, and durable progress checkpoints. Continue ready work
-instead of treating the end of a task batch as the end of the feature.
+Use the project’s existing requirements, design, and native task queue. Discover
+its specification system, execute work in dependency order, review at the required
+risk depth, verify the result, and continue ready work through durable checkpoints.
 
-[الشرح بالمصري](README.ar.md) · [Original workflow](skills/hard-implementation/references/workflow.md)
+[الشرح بالمصري](README.ar.md) · [Agent compatibility](docs/COMPATIBILITY.md)
+· [Native-system map](skills/hard-implementation/references/systems.md)
+· [Original workflow](skills/hard-implementation/references/workflow.md)
 · [Preservation audit](docs/PRESERVATION.md) · [Validation](docs/VALIDATION.md)
 
 ## Full workflow, preserved
 
-The author's original **2,397-line, 46-section workflow** is included byte-for-byte.
-Nothing has been shortened, deleted, or replaced with an abbreviated workflow.
-The skill entrypoint requires the agent to read the complete original before
-implementation. A separate companion adds durable checkpoints and host-specific
-loading guidance. Applicability and execution tiers come from the original itself.
+The author’s original **2,397-line, 46-section workflow** is preserved byte-for-byte.
+Nothing has been shortened or deleted. Its historical title and filenames still
+mention Spec Kit. The loading entrypoint and additive native-system map bind those
+names to the actual project’s artifact roles, while retaining all engineering,
+review, evidence, dependency, risk, recovery, and completeness rules.
 
-The original covers repository/technology discovery, dependency DAGs, explicit file
-ownership, adaptive parallelism, risk classification, specialist reviews, root-cause
-fixes, contracts, persistence, security, UI/platform behavior, concurrency/recovery,
-test validity, clean local gates, task reconciliation, local commits, and evidence.
+Supported specification systems: **Spec Kit, Kiro Specs, cc-sdd, Spec Workflow MCP,
+OpenSpec, Spec Kitty, Conductor, and Superpowers**. These are native artifact/state
+integrations, not migrations to Spec Kit. The agent preserves task IDs, optional-task
+semantics, approval gates, work-package lanes, and native board update mechanisms.
+Conductor and Superpowers can execute tasks embedded in an implementation plan;
+Spec Kitty can execute a queue made of multiple work packages.
 
-This package starts at the **implementation** stage. Prepare an existing Spec Kit
-feature with `spec.md`, `plan.md`, and `tasks.md` first.
+This starts at the implementation stage. Existing requirements and the applicable
+approved design/plan/task artifacts must already exist. Missing required approvals
+remain blockers. Schema-optional artifacts remain optional. Multiple systems or
+features can coexist: an ambiguous target is not automatically chosen.
 
 ## Install the command once
 
 Requirements: [uv](https://docs.astral.sh/uv/getting-started/installation/), Git,
-and Codex or OpenCode with your usual model account. Python 3.10+ is required;
-uv can provision it. Install the released command on your computer:
+Python 3.10+ (uv can provision it), and your chosen coding agent/model access.
 
 ```bash
-uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.1.0
+uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.2.0
 ```
 
-This gives you the `hard` command. The package source is **GitHub**, not PyPI.
-The complete workflow ships inside the package; setup does not download it again.
-If `hard` is not found, run `uv tool update-shell` and reopen your terminal.
+Updating an existing `hard` command:
+
+```bash
+uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.2.0
+```
+
+The package source is GitHub, not PyPI. The complete skill ships inside the package;
+project/global setup needs no subsequent workflow download. If `hard` is not found,
+run `uv tool update-shell` and reopen the terminal.
 
 ## Guided setup
 
-Open a terminal in your actual project and run:
+From your actual project directory:
 
 ```bash
 hard init
 ```
 
-Use the arrow keys and Enter to choose:
+Choose your coding agent, then this project or all projects on this computer.
+The agent menu includes **Codex, OpenCode, Claude Code, Hermes, Command Code,
+ZCode, Antigravity, Warp, Pi, and VS Code / GitHub Copilot**. Choose one, a custom
+selection (Space toggles agents), all agents, or the original Codex/OpenCode pair.
+Confirm the displayed settings; setup verifies the complete workflow, checks
+existing files, installs, and displays native invocation commands.
 
-1. **Codex**, **OpenCode**, or **both** (installed commands are marked detected).
-2. **This project** or **all projects on this computer**.
-3. Confirm the displayed settings.
-
-Setup displays a banner, the destination, verification progress, and a clear
-success panel with commands to run in your agent chat. Existing files are checked
-before writing. JSON is available only when explicitly requested with `--json`.
-Global setup makes the skill available across local projects; it does not create
-Spec files or install your coding agent.
+For scripts/CI, select explicitly:
 
 ```bash
-hard status
+hard init --here --agent all --yes
+hard init --global --agent claude --agent hermes --agent commandcode --yes
+hard init my-project --agent zcode --agent pi --yes
+hard init --here --agent all --dry-run
 ```
 
-This checks the current project's installation and the global installation.
-For scripts or CI, select the settings explicitly:
+`--agent both` retains its original meaning: Codex + OpenCode. Repeating `--agent`
+adds support for another host without removing previously installed hosts.
+A new project path creates that directory; no specification scaffold is invented.
+The skill does not install coding agents, change models, edit host settings, or
+change project governance. Global availability applies on this machine.
 
-```bash
-hard init --here --agent both --yes
-hard init --global --agent codex --yes
-hard init my-project --agent opencode --yes
-hard init --here --agent both --dry-run
-```
-
-`my-project` creates that directory if it is missing. It installs the implementation
-skill, not a complete Spec Kit project. `--dry-run` previews without writing.
-To update the command to this release and then update the skill, run:
-
-```bash
-uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.1.0
-hard init
-```
-
-A Git source pinned to a tag remains on that tag. For a later release, repeat
-`uv tool install --reinstall` with the new documented Git URL/tag, then `hard init`.
-
-### Minimal Python alternative
-
-The dependency-free legacy installer is still available. From your actual project:
-
-```bash
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.1.0/install.py --project .
-```
-
-This installs both agents locally without the interactive menus or global setup.
-With Python 3.10+ and Git, another route from your project's directory is:
-
-```bash
-git clone --branch v1.1.0 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
-python3 hard-implementation/install.py --project . --source hard-implementation
-```
-
-A detached-HEAD notice here is normal when cloning a release tag.
-On Windows, `py -3` can replace `python3`.
+Hermes project discovery requires a Git repository and native project trust;
+setup displays `hermes skills trust` as a user step and does not modify trust.
+Hermes global copies follow `HERMES_HOME` when set. Antigravity global copies cover
+both current IDE/2.0 and CLI locations. ZCode may need Settings → Skills → Refresh
+and its enable switch. VS Code here means Copilot Agent chat: Codex/Claude extensions
+use their own host integrations. See [exact paths and sources](docs/COMPATIBILITY.md).
 
 ## Run in your coding agent
 
-Start the agent from the target project. Replace `specs/001-your-feature` with the
-actual feature directory. These commands go in the **agent chat**, not the shell.
+Commands below go in **agent chat**, not your shell. Append the actual feature,
+change, track, work-package collection, or linked plan path when needed.
 
-**Codex**
+| Agent | Invocation |
+|---|---|
+| Codex / ZCode | `$hard-implementation` |
+| OpenCode | `/hard.implement` |
+| Claude Code / Hermes / Command Code / Antigravity / Warp / VS Code Copilot | `/hard-implementation` |
+| Pi | `/skill:hard-implementation` |
 
-```text
-$hard-implementation specs/001-your-feature
+The agent first reads the full original workflow and native-system map, discovers
+what the project uses, and preserves its own implementation process. Restart or
+refresh an open host session if needed. No model subscription is provided.
+
+## Inspect, resume, and uninstall
+
+```bash
+hard status
+hard detect
 ```
 
-**OpenCode**
+`status` verifies installed files in the current project and global scope. `detect`
+is read-only conventional-layout discovery; it lists native requirements, design,
+and queues. It does not grant approvals, mutate a board, or prove task completion.
+Custom artifact locations and schema changes still require agent inspection.
+`--json` is opt-in machine-readable output.
 
-```text
-/hard.implement specs/001-your-feature
-```
-
-If the new skill/command is not visible, restart the agent session. The installer
-does not change your selected model, permission settings, or existing agent config.
-
-The argument can include a feature path and ordinary user constraints. If omitted,
-the workflow discovers the target and asks only when the choice is genuinely
-ambiguous. A missing or contradictory Spec is not permission to invent a feature.
-
-## Resume after interruption
-
-Run the same command with the same feature path. The agent reads the checkpoint,
-checks the actual branch, code, task states, and evidence, and continues the ready
-work. It does not assume every checked box or earlier summary is valid.
-
-The default checkpoint is:
-
-```text
-specs/001-your-feature/evidence/implementation-state.md
-```
-
-Repository policy may select an equivalent location. `tasks.md` remains the
-authoritative work queue. The checkpoint records progress and the next action;
-it does not authorize additional scope or replace verification.
-
-**A skill cannot restart a closed host, override permission limits, replenish model
-quota, or guarantee any model's behavior.** It instructs the running agent to keep
-working and preserves enough state for a later invocation. A real external blocker
-or user stop remains a valid stopping condition. Multi-agent execution is used only
-when available and useful; same-context review is labeled honestly.
-
-## Installed files and ownership
-
-```text
-your-project/
-├── .agents/skills/hard-implementation/   # shared complete skill
-├── .opencode/commands/hard.implement.md  # only with OpenCode selected
-└── .hard-implementation/install.json    # installer ownership and hashes
-```
-
-The installer refuses conflicting files and locally modified managed files. An
-identical pre-existing file is usable but is not claimed for later deletion. It
-does not edit `AGENTS.md`, `opencode.json`, Codex config, or your Spec files. File
-hashes detect payload corruption; they are not a signed publisher identity system.
-
-Repeat the same install to repair missing managed files or confirm an unchanged
-installation. Selecting another agent adds its support; it does not remove support
-previously installed. For future releases, update the command and run `hard init` again. Save local
-customizations elsewhere before updating; there is deliberately no overwrite flag.
-
-Remove the skill from the current project or from global availability:
+After an interruption, repeat the same agent invocation for the same target.
+The agent reconciles saved progress against the actual native queue, code, branch,
+and evidence, then continues ready work. The feature-specific checkpoint records
+orchestration state; the native queue remains authoritative. A completed batch is
+not feature completion. A skill cannot restart a closed host, replenish quota,
+override permissions, or guarantee a model’s behavior.
 
 ```bash
 hard uninstall --here
 hard uninstall --global
 ```
 
-For non-interactive removal, append `--yes`. Separately, to remove the command
-itself: `uv tool uninstall hard-implementation`. Removing the command does not
-remove skills you already installed in projects.
+For non-interactive removal, add `--yes`. Removal covers all unchanged installer-owned
+copies/commands in that scope. Unrelated files, identical unowned files, and feature
+checkpoints remain. Modified managed files cause a stop instead of being overwritten.
+`uv tool uninstall hard-implementation` separately removes the program; it does not
+remove installed skills. Ordinary write failures are rolled back. Abrupt process
+termination is not a transaction guarantee; avoid concurrent installers in one scope.
 
-Uninstall removes only unchanged installer-owned files for both agents. Unrelated
-files, pre-existing identical files, and feature checkpoints remain. Empty folders
-may remain. Ordinary write failures are rolled back; abrupt process termination is
-not a transaction guarantee. Avoid simultaneous installers in the same project.
+Project/global ownership records live under `.hard-implementation/`. The shared
+skill is `.agents/skills/hard-implementation/`; required native copies are listed
+in the compatibility guide. Selecting one host does not prevent other hosts that
+scan shared skills from discovering the same skill. Hashes verify content integrity;
+they do not provide a signed publisher identity.
 
-Global setup uses `~/.agents/skills/hard-implementation/` and, for OpenCode,
-`~/.config/opencode/commands/hard.implement.md` (or your `XDG_CONFIG_HOME`).
-Its separate ownership record is `~/.hard-implementation/global-install.json`.
-Project and global installs can coexist; project skills take precedence.
+## Minimal Python alternative
 
-## Alternative: standard skills installer
-
-For the shared skill itself, the repository also supports:
+The dependency-free legacy installer still supports project setup. From your actual
+project (select agents explicitly; default retains Codex + OpenCode):
 
 ```bash
-npx skills add Mohammed-AliDev/hard-implementation --skill hard-implementation --agent codex --agent opencode
+uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.2.0/install.py --project . --agent claude --agent hermes
 ```
 
-This third-party route installs the **skill**, not our OpenCode slash-command
-adapter or ownership record. In OpenCode, request “Use the hard-implementation
-skill for specs/001-your-feature”, or use our installer for `/hard.implement`.
-Manage installations with the same installer that created them.
+Or clone this release and use local Python:
 
-## Validation and development
+```bash
+git clone --branch v1.2.0 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
+python3 hard-implementation/install.py --project . --source hard-implementation --agent claude
+```
+
+The detached-HEAD notice is normal for a release tag. On Windows, `py -3` can
+replace `python3`. The guided `hard` CLI is the recommended install/update/remove route.
+
+## Alternative skills distribution
+
+The repository’s `skills/hard-implementation` is a standard Agent Skills package.
+Other skill installers can install it, but may not supply our OpenCode command,
+additional native/global copies, or ownership records. Manage those installations
+with the installer that created them; do not assume `hard uninstall` owns them.
+
+## Development and validation
 
 ```bash
 uv sync
@@ -213,31 +178,12 @@ uv build
 git diff --exit-code
 ```
 
-The tests verify preservation, distribution integrity, installation lifecycle,
-conflict protection, rollback, and task inventory. See [validation evidence](docs/VALIDATION.md)
-for the separate real-agent completion and controlled pause/resume checks. Those
-checks are smoke tests, not a guarantee for every feature, model, or platform.
+The suite checks the original byte-for-byte preservation, all selected native host
+paths, install/reinstall/uninstall/conflict/rollback behavior, eight system fixtures,
+read-only detection, and native checkbox inventories. See [validation evidence](docs/VALIDATION.md)
+for test levels and the earlier Codex/OpenCode live implementation/resume scenario.
+Package compatibility checks are not end-to-end live execution on every host/board.
 
-Create an isolated scenario for another live evaluation:
-
-```bash
-python3 scripts/create_smoke_project.py /tmp/my-hard-implementation-test
-python3 install.py --project /tmp/my-hard-implementation-test
-```
-
-The fixture uses a small standard-library Python invoice module so dependency order,
-invalid inputs, task completion, user-file preservation, and resume are observable.
-Production use still follows the **full** workflow, adapting depth to actual risk.
-
-## Compatibility references
-
-- [Codex local skills](https://developers.openai.com/codex/skills)
-- [OpenCode skills](https://opencode.ai/docs/skills/)
-- [OpenCode commands](https://opencode.ai/docs/commands/)
-- [Agent Skills format](https://agentskills.io/specification)
-- [Spec Kit](https://github.com/github/spec-kit)
-
-Independent community project; not an official GitHub, OpenAI, or OpenCode release.
-Distributed under the [MIT license](LICENSE). Issues and focused pull requests are
-welcome. Preserve the original workflow: propose substantive revisions explicitly
-instead of silently shortening it. Never include credentials in issue reports.
+Independent community project, not an official release of the named tools.
+[MIT licensed](LICENSE). Preserve the original workflow; propose substantive revisions
+explicitly instead of silently shortening it. Do not include credentials in reports.
