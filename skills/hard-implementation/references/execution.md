@@ -10,16 +10,16 @@ mechanics. Spec/Plan/Tasks below mean the discovered native artifact roles.
 ## Durable checkpoint
 
 After establishing the target and before production edits, create or update
-`<target-spec>/evidence/implementation-state.md`, unless repository policy provides
+`<target-folder>/evidence/implementation-state.md`, unless repository policy provides
 an equivalent location. For a plan-file target, use a feature-specific adjacent
-checkpoint as described in `systems.md`. This is an output of the run, never a required pre-existing
-governance file. Use [the checkpoint template](../assets/implementation-state.md).
+checkpoint as described in `systems.md`. This is an output of the run, never a
+required pre-existing governance file. Use [the checkpoint template](../assets/implementation-state.md).
 Keep records proportional to the execution tier, including a short record for a
 small feature. Do not copy secrets, credentials, or sensitive test payloads into it.
 
-The checkpoint records orchestration state. the discovered native task queue remains authoritative
-, the Spec remains the product reference, and actual code/tests remain the
-evidence. The checkpoint is not a second independent task list or permission grant.
+The checkpoint records orchestration state. The discovered native task queue
+remains authoritative, the native requirements remain the product reference,
+and actual code/tests remain the evidence. The checkpoint is not a second independent task list or permission grant.
 
 Only the orchestrator writes the checkpoint and shared task/evidence indexes.
 Delegated writers report their results to it. Save after each verified unit,
