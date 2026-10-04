@@ -13,12 +13,28 @@ import tempfile
 from urllib.request import urlopen
 
 REPOSITORY = "Mohammed-AliDev/hard-implementation"
-RELEASE = "v1.0.1"
+RELEASE = "v1.1.0"
 STATE = ".hard-implementation/install.json"
 SKILL_PREFIX = "skills/hard-implementation/"
 DEST_PREFIX = ".agents/skills/hard-implementation/"
 ADAPTER = "adapters/opencode/hard.implement.md"
 COMMAND = ".opencode/commands/hard.implement.md"
+GLOBAL_STATE = ".hard-implementation/global-install.json"
+
+
+def destination(root, name, scope="project", config_home=None):
+    if scope not in ("project", "global"):
+        raise ValueError("Invalid installation scope")
+    if scope == "global" and name == STATE:
+        return safe_path(root, GLOBAL_STATE)
+    if scope == "global" and name == COMMAND:
+        config = Path(config_home) if config_home is not None else root / ".config"
+        if not config.is_absolute():
+            raise ValueError("OpenCode configuration directory must be absolute")
+        if config.is_symlink():
+            raise ValueError(f"Refusing symlink configuration directory: {config}")
+        return safe_path(config, "opencode/commands/hard.implement.md")
+    return safe_path(root, name)
 
 
 def digest(data):
@@ -61,13 +77,19 @@ def atomic_write(path, data):
             os.unlink(temp)
 
 
-def load_state(root):
-    path = safe_path(root, STATE)
+def load_state(root, scope="project", config_home=None):
+    path = destination(root, STATE, scope, config_home)
     if not path.exists():
         return {"files": {}, "agents": []}
     state = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(state, dict) or state.get("package") != "hard-implementation":
         raise ValueError("Unrecognized installation record")
+    if state.get("scope", "project") != scope:
+        raise ValueError("Installation record belongs to another scope")
+    if scope == "global" and COMMAND in state.get("files", {}):
+        expected = str(destination(root, COMMAND, scope, config_home))
+        if state.get("command_path") != expected:
+            raise ValueError("OpenCode configuration location changed; use the recorded location to manage this installation")
     if not isinstance(state.get("files"), dict) or not isinstance(state.get("agents"), list):
         raise ValueError("Invalid installation record")
     if any(a not in ("codex", "opencode") for a in state["agents"]):
@@ -121,17 +143,28 @@ def payload(source, agents):
     return result
 
 
-def install(root, source, agents, dry_run=False, uninstall=False):
+def install(root, source, agents, dry_run=False, uninstall=False,
+            scope="project", config_home=None, on_event=None):
     if not root.is_dir():
         raise ValueError(f"Project directory does not exist: {root}")
-    old = load_state(root)
+    notify = on_event or (lambda stage, detail: None)
+    path_for = lambda name: destination(root, name, scope, config_home)
+    old = load_state(root, scope, config_home)
     chosen = sorted(set(agents) | set(old["agents"]))
+    if not set(chosen) <= {"codex", "opencode"} or (not chosen and not uninstall):
+        raise ValueError("Choose Codex, OpenCode, or both")
+    notify("workflow", "Loading the complete workflow")
     desired = {} if uninstall else payload(source, chosen)
+    if scope == "global" and COMMAND in desired:
+        skill_path = str(path_for(DEST_PREFIX + "SKILL.md"))
+        desired[COMMAND] = desired[COMMAND].replace(
+            b".agents/skills/hard-implementation/SKILL.md", skill_path.encode("utf-8"))
+    notify("workflow_done", "Full workflow and resources verified")
     owned = {}
     writes, removals = {}, []
     # Preflight the entire operation before modifying any destination.
     for name in sorted(set(old["files"]) | set(desired)):
-        path = safe_path(root, name)
+        path = path_for(name)
         present = path.exists()
         if present and not path.is_file():
             raise ValueError(f"Destination is not a file: {path}")
@@ -150,33 +183,43 @@ def install(root, source, agents, dry_run=False, uninstall=False):
                 writes[name] = desired[name]
         elif present:
             removals.append(name)
-    actions = {"write": sorted(writes), "remove": removals, "agents": chosen}
+    notify("preflight_done", "Existing files checked and protected")
+    actions = {"write": sorted(writes), "remove": removals, "agents": chosen,
+               "scope": scope, "destinations": {name: str(path_for(name)) for name in desired},
+               "version": RELEASE[1:]}
     if dry_run:
         return actions
-    state_path = safe_path(root, STATE)
-    before = {name: (safe_path(root, name).read_bytes() if safe_path(root, name).exists() else None)
+    state_path = path_for(STATE)
+    before = {name: (path_for(name).read_bytes() if path_for(name).exists() else None)
               for name in [*writes, *removals, STATE]}
     try:
         # Per-file replacements are atomic; ordinary write failures roll back.
         for name, data in writes.items():
-            atomic_write(safe_path(root, name), data)
+            atomic_write(path_for(name), data)
         for name in removals:
-            safe_path(root, name).unlink()
+            path_for(name).unlink()
+        notify("write_done", "Files removed" if uninstall else "Skill and selected commands installed")
+        for name, data in desired.items():
+            if digest(path_for(name).read_bytes()) != digest(data):
+                raise ValueError(f"Installed file verification failed: {path_for(name)}")
         if uninstall:
             if state_path.exists():
                 state_path.unlink()
         else:
             state = {"package": "hard-implementation", "version": RELEASE[1:],
-                     "agents": chosen, "files": owned}
+                     "agents": chosen, "files": owned, "scope": scope}
+            if scope == "global":
+                state["command_path"] = str(path_for(COMMAND))
             atomic_write(state_path, (json.dumps(state, indent=2) + "\n").encode())
-    except OSError:
+    except (OSError, ValueError):
         for name, data in reversed(list(before.items())):
-            path = safe_path(root, name)
+            path = path_for(name)
             if data is None:
                 path.unlink(missing_ok=True)
             else:
                 atomic_write(path, data)
         raise
+    notify("verify_done", "Installed files verified" if not uninstall else "Managed installation removed")
     return actions
 
 
@@ -188,7 +231,10 @@ def main():
     parser.add_argument("--source", type=Path, help="Use a local release checkout (offline)")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--uninstall", action="store_true", help="Remove only unchanged installer-owned files")
+    parser.add_argument("--json", action="store_true", help="Print machine-readable output")
     args = parser.parse_args()
+    if str(args.project).startswith("/path/to/"):
+        parser.error("That is an example path. From your project folder, omit --project or use --project .")
     source = args.source
     if source is None and (Path(__file__).resolve().parent / "distribution.json").is_file():
         source = Path(__file__).resolve().parent
@@ -197,7 +243,11 @@ def main():
                          args.agent or ["codex", "opencode"], args.dry_run, args.uninstall)
     except (OSError, ValueError, KeyError, TypeError) as exc:
         parser.exit(1, f"Installation stopped: {exc}\n")
-    print(json.dumps(result, indent=2))
+    if args.json:
+        print(json.dumps(result, indent=2))
+    else:
+        print(f"Project: {args.project.resolve()}")
+        print(f"Files written: {len(result['write'])}; removed: {len(result['remove'])}")
     if not args.dry_run and not args.uninstall:
         print("Installed Hard Implementation " + RELEASE)
         if "codex" in result["agents"]:

@@ -25,42 +25,84 @@ test validity, clean local gates, task reconciliation, local commits, and eviden
 This package starts at the **implementation** stage. Prepare an existing Spec Kit
 feature with `spec.md`, `plan.md`, and `tasks.md` first.
 
-## Install into your project
+## Install the command once
 
-Requirements: Codex or OpenCode, repository editing/terminal access, and either
-[uv](https://docs.astral.sh/uv/getting-started/installation/) or Python 3.10+.
-The installer has no third-party Python dependencies. Model access is provided by
-your existing agent account/configuration; the package does not supply a model.
-
-Run from your **target project's root**:
+Requirements: [uv](https://docs.astral.sh/uv/getting-started/installation/), Git,
+and Codex or OpenCode with your usual model account. Python 3.10+ is required;
+uv can provision it. Install the released command on your computer:
 
 ```bash
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.1/install.py
+uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.1.0
 ```
 
-This installs support for **both** Codex and OpenCode. To select one:
+This gives you the `hard` command. The package source is **GitHub**, not PyPI.
+The complete workflow ships inside the package; setup does not download it again.
+If `hard` is not found, run `uv tool update-shell` and reopen your terminal.
+
+## Guided setup
+
+Open a terminal in your actual project and run:
 
 ```bash
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.1/install.py --agent codex
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.1/install.py --agent opencode
+hard init
 ```
 
-You can inspect the [installer](install.py) or preview destinations by appending
-`--dry-run`. Use `--project /path/to/project` to choose a different project directory.
-The command uses the pinned release, not a moving branch.
+Use the arrow keys and Enter to choose:
 
-### Without uv
+1. **Codex**, **OpenCode**, or **both** (installed commands are marked detected).
+2. **This project** or **all projects on this computer**.
+3. Confirm the displayed settings.
 
-Clone the release into a separate tools directory, then run Python against your
-target project:
+Setup displays a banner, the destination, verification progress, and a clear
+success panel with commands to run in your agent chat. Existing files are checked
+before writing. JSON is available only when explicitly requested with `--json`.
+Global setup makes the skill available across local projects; it does not create
+Spec files or install your coding agent.
 
 ```bash
-git clone --branch v1.0.1 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
-python3 hard-implementation/install.py --project /path/to/your/project
+hard status
 ```
 
-On Windows, `py -3` can replace `python3` when that is your Python launcher.
-A downloaded checkout can install offline with `--source /path/to/checkout`.
+This checks the current project's installation and the global installation.
+For scripts or CI, select the settings explicitly:
+
+```bash
+hard init --here --agent both --yes
+hard init --global --agent codex --yes
+hard init my-project --agent opencode --yes
+hard init --here --agent both --dry-run
+```
+
+`my-project` creates that directory if it is missing. It installs the implementation
+skill, not a complete Spec Kit project. `--dry-run` previews without writing.
+To update the command to this release and then update the skill, run:
+
+```bash
+uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.1.0
+hard init
+```
+
+A Git source pinned to a tag remains on that tag. For a later release, repeat
+`uv tool install --reinstall` with the new documented Git URL/tag, then `hard init`.
+
+### Minimal Python alternative
+
+The dependency-free legacy installer is still available. From your actual project:
+
+```bash
+uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.1.0/install.py --project .
+```
+
+This installs both agents locally without the interactive menus or global setup.
+With Python 3.10+ and Git, another route from your project's directory is:
+
+```bash
+git clone --branch v1.1.0 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
+python3 hard-implementation/install.py --project . --source hard-implementation
+```
+
+A detached-HEAD notice here is normal when cloning a release tag.
+On Windows, `py -3` can replace `python3`.
 
 ## Run in your coding agent
 
@@ -124,19 +166,29 @@ hashes detect payload corruption; they are not a signed publisher identity syste
 
 Repeat the same install to repair missing managed files or confirm an unchanged
 installation. Selecting another agent adds its support; it does not remove support
-previously installed. For future releases, use that release's installer. Save local
+previously installed. For future releases, update the command and run `hard init` again. Save local
 customizations elsewhere before updating; there is deliberately no overwrite flag.
 
-Uninstall with the same script and `--uninstall`:
+Remove the skill from the current project or from global availability:
 
 ```bash
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.1/install.py --uninstall
+hard uninstall --here
+hard uninstall --global
 ```
+
+For non-interactive removal, append `--yes`. Separately, to remove the command
+itself: `uv tool uninstall hard-implementation`. Removing the command does not
+remove skills you already installed in projects.
 
 Uninstall removes only unchanged installer-owned files for both agents. Unrelated
 files, pre-existing identical files, and feature checkpoints remain. Empty folders
 may remain. Ordinary write failures are rolled back; abrupt process termination is
 not a transaction guarantee. Avoid simultaneous installers in the same project.
+
+Global setup uses `~/.agents/skills/hard-implementation/` and, for OpenCode,
+`~/.config/opencode/commands/hard.implement.md` (or your `XDG_CONFIG_HOME`).
+Its separate ownership record is `~/.hard-implementation/global-install.json`.
+Project and global installs can coexist; project skills take precedence.
 
 ## Alternative: standard skills installer
 
@@ -154,8 +206,10 @@ Manage installations with the same installer that created them.
 ## Validation and development
 
 ```bash
-python3 -m unittest discover -s tests -v
-python3 scripts/build_distribution.py
+uv sync
+uv run python -m unittest discover -s tests -v
+uv run python scripts/build_distribution.py
+uv build
 git diff --exit-code
 ```
 

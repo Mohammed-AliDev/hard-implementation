@@ -7,7 +7,7 @@ Validation date: **2026-10-04 (Africa/Cairo)**.
 - Original author's attachment preserved byte-for-byte: 55,439 bytes, 2,397 lines,
   46 numbered sections (0–44 and 4A). SHA-256 and section index are in
   [PRESERVATION.md](PRESERVATION.md).
-- `python3 -m unittest discover -s tests -v`: **17 tests passed** on Linux.
+- `python3 -m unittest discover -s tests -v`: **27 tests passed** on Linux.
 - Skill Creator `quick_validate.py`: **passed**.
 - Python compilation check: **passed**.
 - Independent review exercised the installer and read the complete skill. A
@@ -102,3 +102,19 @@ the full original workflow matched byte-for-byte. Initial CI found a development
 generator ordering difference on Windows (case-insensitive Path sorting), not a
 failed installation or changed payload. Version 1.0.1 sorts POSIX path strings and
 writes deterministic LF bytes. The original workflow content is unchanged.
+
+## Guided CLI release (1.1.0)
+
+- All 27 package/CLI tests passed locally, including global installation with an
+  isolated home/configuration directory, changed-file status reporting, scope
+  selection, cancellation, JSON output, dry-run, and non-interactive safeguards.
+- Built both wheel and source distribution with `uv build`.
+- Installed from the wheel in a separate uv environment and initialized a clean
+  project without a source-checkout argument. `hard status` reported version 1.1.0
+  and verified Codex/OpenCode installation; resources came from the bundled package.
+- A real terminal session exercised the arrow-key agent selection and confirmation,
+  then completed installation. The numeric fallback and cancellation were also
+  exercised in a terminal reporting `TERM=dumb`.
+- The original workflow remains byte-for-byte unchanged. The earlier live-agent
+  implementation/resume results apply to the preserved workflow; this CLI release
+  did not repeat those paid model runs.

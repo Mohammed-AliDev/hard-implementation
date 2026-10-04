@@ -19,26 +19,80 @@
 واستخدم Codex أو OpenCode بحسابك وإعداداتك المعتادة.
 الـskill مش بتوفّر اشتراك أو موديل، ومش بتغيّر الموديل اللي أنت مختاره.
 
-## التنزيل
+## نزّل البرنامج مرة واحدة
 
-افتح الـTerminal جوه فولدر مشروعك. لو عندك [uv](https://docs.astral.sh/uv/getting-started/installation/)، اكتب:
-
-```bash
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.1/install.py
-```
-
-الأمر ده بيثبّت دعم الأداتين. لو عايز واحدة بس، زوّد `--agent codex` أو
-`--agent opencode` في آخره. التثبيت خاص بالمشروع اللي أنت واقف جواه.
-
-لو معندكش uv وعندك Python 3.10 أو أحدث، نزّل المستودع وشغّل المثبّت:
+لو عندك [uv](https://docs.astral.sh/uv/getting-started/installation/) وGit، اكتب:
 
 ```bash
-git clone --branch v1.0.1 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
-python3 hard-implementation/install.py --project /path/to/your/project
+uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.1.0
 ```
 
-بدّل `/path/to/your/project` بمسار مشروعك الحقيقي. على Windows ممكن تستخدم
-`py -3` بدل `python3`. تقدر تضيف `--dry-run` علشان تشوف اللي هيتثبت قبل الكتابة.
+ده بيثبّت برنامج اسمه `hard` على جهازك. مصدر الحزمة GitHub حاليًا.
+الـskill الكاملة موجودة جواه؛ مش محتاج تعمل `git clone` ولا تكتب مسار وهمي.
+لو التيرمنال قال إن `hard` مش موجود، اكتب `uv tool update-shell` وافتح التيرمنال تاني.
+
+## اختار هتستخدمها فين ومع إيه
+
+افتح التيرمنال جوه مشروعك الحقيقي واكتب:
+
+```bash
+hard init
+```
+
+هيطلع لك الشعار، وبعده تختار بالأسهم وتضغط Enter:
+
+1. **Codex**، أو **OpenCode**، أو **الاتنين**.
+2. **المشروع ده بس**، أو **كل مشاريعك على الجهاز ده**.
+3. هتشوف اختياراتك ومكان التثبيت، وتأكدها.
+
+بعدها بيشيّك على الملفات، ويثبّت، ويتأكد إنها سليمة، ويطلع لك نتيجة واضحة
+وأوامر التشغيل. مفيش قائمة JSON غامضة في التثبيت العادي.
+
+**فيه فرق بين الخطوتين:** `uv tool install` بينزّل برنامج التثبيت مرة واحدة؛
+`hard init` بيجهّز المهارة للأداة والمكان اللي تختارهم.
+لو اخترت كل المشاريع، مش محتاج تكرّر التثبيت في كل مشروع.
+لو اخترت مشروع واحد، كرّر `hard init` لما تحب تجهّز مشروع تاني.
+البرنامج مش بيعمل ملفات Spec Kit من نفسه؛ هو بيجهّز خطوة التنفيذ.
+
+علشان تتأكد من التثبيت في أي وقت:
+
+```bash
+hard status
+```
+
+لو عايز تثبيت مباشر من غير أسئلة، من جوه مشروعك:
+
+```bash
+hard init --here --agent both --yes
+```
+
+ولو عايز Codex في كل المشاريع مباشرة:
+
+```bash
+hard init --global --agent codex --yes
+```
+
+ولمعاينة بس من غير تغيير ملفات:
+
+```bash
+hard init --here --agent both --dry-run
+```
+
+لو كنت ثبّت النسخة القديمة، `hard init` يقدر يحدّثها لو ملفاتها متعدّلتش.
+لما تنزل نسخة أحدث، استخدم أمر `uv tool install --reinstall` بالرابط ورقم
+الإصدار الجديد اللي في الدليل، وبعده `hard init`.
+
+### بديل بسيط من غير واجهة الاختيارات
+
+المثبّت القديم لسه موجود. من جوه مشروعك الحقيقي:
+
+```bash
+uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.1.0/install.py --project .
+```
+
+ده يثبّت الاتنين للمشروع الحالي فقط. النقطة `.` معناها الفولدر اللي أنت واقف فيه.
+لو شفت `/path/to/your/project` في دليل قديم، ده كان مثال لمسار، مش أمر يتنسخ زي ما هو.
+ولو نزّلت release بـGit وظهر `detached HEAD`، دي رسالة طبيعية لأنك نزّلت إصدار محدد.
 
 ## التشغيل
 
@@ -82,13 +136,21 @@ specs/001-your-feature/evidence/implementation-state.md
 مش بيغيّر إعدادات Codex أو OpenCode أو ملف `AGENTS.md`.
 إعادة نفس أمر التثبيت آمنة في الحالة المعتادة، وبتصلّح الملفات التابعة له لو ناقصة.
 
-لإزالة التثبيت، اكتب أمر التثبيت ومعاه `--uninstall`:
+لإزالة المهارة من المشروع الحالي:
 
 ```bash
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.0.1/install.py --uninstall
+hard uninstall --here
+```
+
+ولإزالة التثبيت اللي لكل المشاريع:
+
+```bash
+hard uninstall --global
 ```
 
 بيحذف الملفات اللي ثبّتها ولسه متعدّلتش فقط. ملفات المشروع والتقدم المسجّل تفضل موجودة.
+ولإزالة برنامج `hard` نفسه: `uv tool uninstall hard-implementation`.
+إزالة البرنامج لوحده مش بتشيل المهارة من المشاريع اللي اتجهّزت قبل كده.
 
 ## إيه اللي اتضاف للنص الأصلي؟
 

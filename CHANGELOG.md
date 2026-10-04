@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.0
+
+- Ship an installable `hard` command with the full workflow bundled in wheel and source distributions.
+- Add a Rich terminal banner, guided agent/scope menus, verified progress, and usable next steps.
+- Support project or global availability for Codex and OpenCode, including XDG configuration locations.
+- Add `hard status`, guided removal, explicit automation options, and opt-in JSON output.
+- Replace placeholder-led installation instructions with install-once and guided setup commands.
+- Preserve the complete original workflow byte-for-byte and retain the minimal Python installer.
+
 ## 1.0.1
 
 - Make distribution generation deterministic on Windows as well as Unix by sorting

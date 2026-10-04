@@ -3,7 +3,7 @@ name: hard-implementation
 description: Execute an existing Spec Kit implementation plan through dependency-aware work, risk-based review, local verification, and resumable progress. Use when implementing or resuming a feature with spec.md, plan.md, and tasks.md.
 license: MIT
 metadata:
-  version: "1.0.1"
+  version: "1.1.0"
 ---
 
 # Hard Implementation
