@@ -33,6 +33,7 @@ def main():
     svg = console.export_svg(title="HARD IMPLEMENTATION / ALAEEB", theme=theme)
     # Keep the preview self-contained; use the viewer's monospace font.
     svg = re.sub(r"@font-face\s*\{.*?\}", "", svg, flags=re.S)
+    svg = "\n".join(line.rstrip() for line in svg.splitlines()) + "\n"
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_bytes(svg.encode("utf-8"))
     print(args.output)
