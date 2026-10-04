@@ -41,9 +41,8 @@ def facts(root=ROOT):
     if len(topics) > 20 or any(not re.fullmatch(r"[a-z0-9][a-z0-9-]{0,49}", t) for t in topics):
         raise ValueError("Invalid GitHub topic list")
     labels = ", ".join(info["label"] for info in engine.AGENTS.values())
-    description = (f"Universal implementation workflow for {labels}. "
-                   f"Supports {len(metadata['supported_systems'])} spec systems, security gates, "
-                   "verification and resumable execution; complete original preserved.")
+    description = (f"Implement, review, verify and resume work with {', '.join(metadata['supported_systems'])}. "
+                   f"For {labels}. Complete original preserved; security gates included.")
     if len(description) > 350:
         raise ValueError("Generated GitHub About exceeds 350 characters")
     return {"version": project_version(root), "repository": engine.REPOSITORY,
@@ -76,6 +75,19 @@ def snapshot(data):
             "## Native systems\n\n" + systems + "\n")
 
 
+def systems_block(data, arabic=False):
+    names = ", ".join(data["systems"])
+    if arabic:
+        body = f"**تشتغل مع:** {names}.\n\n" + (
+            "لو مشروعك شغّال بواحد من دول، المهارة بتستخدم المواصفات والمهام الموجودة\n"
+            "علشان تنفّذ وتراجع وتتحقق وتستأنف الشغل بنفس نظام مشروعك.")
+    else:
+        body = f"**Works with:** {names}.\n\n" + (
+            "Use your existing specifications and native task queue to implement, review,\n"
+            "verify and resume work within your project's own workflow.")
+    return "<!-- BEGIN GENERATED: systems -->\n" + body + "\n<!-- END GENERATED: systems -->"
+
+
 def generated_updates(root, data):
     updates = {"docs/CURRENT-STATE.md": snapshot(data)}
     for name in ("README.md", "README.ar.md", "skills/hard-implementation/SKILL.md"):
@@ -86,6 +98,10 @@ def generated_updates(root, data):
         if len(re.findall(pattern, text)) != 1:
             raise ValueError(f"Missing/duplicate command block in {name}")
         text = re.sub(pattern, lambda _: block, text)
+        system_pattern = r"<!-- BEGIN GENERATED: systems -->[\s\S]*?<!-- END GENERATED: systems -->"
+        if len(re.findall(system_pattern, text)) != 1:
+            raise ValueError(f"Missing/duplicate opening system block in {name}")
+        text = re.sub(system_pattern, lambda _: systems_block(data, name == "README.ar.md"), text)
         if name.endswith("SKILL.md"):
             text = re.sub(r'(?m)^  version: "[^"]+"$', f'  version: "{data["version"]}"', text)
         else:
@@ -160,6 +176,9 @@ def local_issues(root, data):
         renderer_hash = hashlib.sha256((root / "src/hard_implementation/branding.py").read_bytes()).hexdigest()
         if f"Renderer SHA256: {renderer_hash}" not in preview.read_text(encoding="utf-8"):
             errors.append("Stale terminal artwork preview; regenerate with scripts/preview_banner.py")
+        registry_hash = hashlib.sha256((root / "project-metadata.json").read_bytes()).hexdigest()
+        if f"Registry SHA256: {registry_hash}" not in preview.read_text(encoding="utf-8"):
+            errors.append("Stale terminal system panel; regenerate with scripts/preview_banner.py")
     for name, section in (("pyproject.toml", "[project]"), ("uv.lock", 'name = "hard-implementation"')):
         text = (root / name).read_text(encoding="utf-8").split(section, 1)[-1]
         match = re.search(r'(?m)^version = "([^"]+)"', text)

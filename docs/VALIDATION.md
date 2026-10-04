@@ -2,7 +2,7 @@
 
 Validation date: **2026-10-04 (Africa/Cairo)**.
 
-## Current package checks (v1.3.3)
+## Current package checks (v1.3.4)
 
 - Original author's attachment preserved byte-for-byte: 55,439 bytes, 2,397 lines,
   46 numbered sections (0–44 and 4A). SHA-256 and section index are in
@@ -20,6 +20,23 @@ The package suite covers install/reinstall/uninstall, selecting supported agents
 preserving unrelated and pre-existing identical files, refusing modified managed
 files and conflicting destinations, parent/symlink checks, payload corruption,
 record path validation, ordinary write-failure rollback, and honest task inventory.
+
+## System visibility release (1.3.4)
+
+- The current terminal banner has no lion in color, narrow, monochrome or legacy
+  output. HARD and purple ALAEEB remain, followed by the system names and purpose.
+- CLI names, README/skill opening blocks and GitHub About share the same canonical
+  system registry. The registry is included in the installed wheel.
+- Both README languages explicitly document the same tool-install command for
+  Windows, Linux and macOS, with platform-specific prerequisites linked separately.
+- All 57 package tests, Skill Creator validation and width/color/encoding checks
+  passed locally. Actual dark/light/40-column terminal previews were inspected.
+- Wheel/source builds passed. A real setup dry run from the isolated installed
+  wheel displayed every system and its purpose; the bundled registry was present.
+- GitHub About was updated and read back successfully. Preview checks cover both
+  the renderer and system-registry fingerprints, as well as the release version.
+- No native workflow, security-gate rules or original workflow bytes were changed;
+  no new live model execution was run for this presentation update.
 
 ## Glyph lion release (1.3.3)
 

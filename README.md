@@ -1,6 +1,13 @@
 # Hard Implementation — Universal
 
-![Roaring lion, HARD and ALAEEB terminal branding](docs/assets/banner.svg)
+<!-- BEGIN GENERATED: systems -->
+**Works with:** Spec Kit, Kiro Specs, cc-sdd, Spec Workflow MCP, OpenSpec, Spec Kitty, Conductor, Superpowers.
+
+Use your existing specifications and native task queue to implement, review,
+verify and resume work within your project's own workflow.
+<!-- END GENERATED: systems -->
+
+![HARD, ALAEEB and supported specification systems](docs/assets/banner.svg)
 
 **The complete implementation, review, verification, and recovery workflow for
 existing specification systems and coding agents.**
@@ -22,10 +29,9 @@ mention Spec Kit. The loading entrypoint and additive native-system map bind tho
 names to the actual project’s artifact roles, while retaining all engineering,
 review, evidence, dependency, risk, recovery, and completeness rules.
 
-Supported specification systems: **Spec Kit, Kiro Specs, cc-sdd, Spec Workflow MCP,
-OpenSpec, Spec Kitty, Conductor, and Superpowers**. These are native artifact/state
-integrations, not migrations to Spec Kit. The agent preserves task IDs, optional-task
-semantics, approval gates, work-package lanes, and native board update mechanisms.
+The skill keeps native artifact/state integrations rather than migrating projects
+between specification systems. It preserves task IDs, optional-task semantics,
+approval gates, work-package lanes, and native board update mechanisms.
 Conductor and Superpowers can execute tasks embedded in an implementation plan;
 Spec Kitty can execute a queue made of multiple work packages.
 
@@ -38,15 +44,17 @@ features can coexist: an ambiguous target is not automatically chosen.
 
 Requirements: [uv](https://docs.astral.sh/uv/getting-started/installation/), Git,
 Python 3.10+ (uv can provision it), and your chosen coding agent/model access.
+The command below is the same on **Windows (PowerShell/cmd), Linux and macOS**;
+installing uv itself has [platform-specific instructions](https://docs.astral.sh/uv/getting-started/installation/).
 
 ```bash
-uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.3
+uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.4
 ```
 
 Updating an existing `hard` command:
 
 ```bash
-uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.3
+uv tool install --reinstall-package hard-implementation git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.4
 ```
 
 The package source is GitHub, not PyPI. The complete skill ships inside the package;
@@ -62,10 +70,9 @@ hard init
 ```
 
 Choose your coding agent, then this project or all projects on this computer.
-The terminal opens with a roaring lion drawn from Unicode block glyphs in the
-same lettering style and cyan/violet gradient as HARD. The **ALAEEB** creator
-signature stays purple. Wide windows display the lion beside the wordmarks;
-compact layouts fit smaller windows. See [terminal artwork and layouts](docs/BRANDING.md).
+Setup opens with the HARD wordmark and purple **ALAEEB** signature, followed by
+all eight supported specification systems and a short explanation of implementation,
+review, verification and recovery. See [the terminal layout](docs/BRANDING.md).
 The agent menu includes **Codex, OpenCode, Claude Code, Hermes, Command Code,
 ZCode, Antigravity, Warp, Pi, and VS Code / GitHub Copilot**. Choose one, a custom
 selection (Space toggles agents), all agents, or the original Codex/OpenCode pair.
@@ -185,13 +192,13 @@ The dependency-free legacy installer still supports project setup. From your act
 project (select agents explicitly; default retains Codex + OpenCode):
 
 ```bash
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.3.3/install.py --project . --agent claude --agent hermes
+uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.3.4/install.py --project . --agent claude --agent hermes
 ```
 
 Or clone this release and use local Python:
 
 ```bash
-git clone --branch v1.3.3 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
+git clone --branch v1.3.4 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
 python3 hard-implementation/install.py --project . --source hard-implementation --agent claude
 ```
 

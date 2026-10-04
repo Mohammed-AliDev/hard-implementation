@@ -1,5 +1,6 @@
 """Load the single canonical installer in a built package or source checkout."""
 import importlib.util
+import json
 from pathlib import Path
 import sys
 
@@ -23,3 +24,9 @@ def bundled_source():
     if (checkout / "distribution.json").is_file():
         return checkout
     raise ValueError("This installation is missing the bundled workflow. Reinstall the hard tool.")
+
+
+def supported_systems():
+    """Read the same system names used by documentation and GitHub About."""
+    metadata = bundled_source() / "project-metadata.json"
+    return tuple(json.loads(metadata.read_text(encoding="utf-8"))["supported_systems"])

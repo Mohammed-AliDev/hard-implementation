@@ -3,10 +3,17 @@ name: hard-implementation
 description: Implement or resume an existing specification and native task queue through dependency-aware execution, applicable threat modeling and security review, verification, and durable recovery. Supports Spec Kit, Kiro Specs, cc-sdd, Spec Workflow MCP, OpenSpec, Spec Kitty, Conductor, and Superpowers.
 license: MIT
 metadata:
-  version: "1.3.3"
+  version: "1.3.4"
 ---
 
 # Hard Implementation — Universal
+
+<!-- BEGIN GENERATED: systems -->
+**Works with:** Spec Kit, Kiro Specs, cc-sdd, Spec Workflow MCP, OpenSpec, Spec Kitty, Conductor, Superpowers.
+
+Use your existing specifications and native task queue to implement, review,
+verify and resume work within your project's own workflow.
+<!-- END GENERATED: systems -->
 
 Requires a coding agent with repository read/write and terminal access. Python
 3.10+ is optional for the task-audit helper. Other capabilities are discovered.

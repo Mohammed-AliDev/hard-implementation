@@ -52,15 +52,15 @@ and keep its applicability/evidence rules linked from the loading entrypoint.
 
 ## Terminal branding
 
-The glyph lion, HARD wordmark and purple ALAEEB signature are rendered by
-`src/hard_implementation/branding.py` using Rich text. Edit the hand-drawn `LION`
-rows there; keep the mane, face and open jaw readable and the rows within 52 columns.
-Current layouts and preserved older image provenance are in [BRANDING.md](BRANDING.md).
-No image compiler, decoding, animation, Pillow or external asset download is used.
-Wide color terminals use a side-by-side layout; medium terminals center the lion;
-small, monochrome and legacy-encoding output use compact ASCII/plain branding.
+The HARD wordmark and purple ALAEEB signature are rendered by
+`src/hard_implementation/branding.py` using Rich text. The current banner has no lion.
+The specification-system panel reads `project-metadata.json`, bundled in the wheel,
+so its names match GitHub About and the generated README/skill opening blocks.
+[BRANDING.md](BRANDING.md) records the current layout and previous artwork provenance.
+No image decoding, animation, Pillow or external asset download is used.
+Narrow, monochrome and legacy-encoding output use compact plain branding.
 JSON output remains undecorated. The consistency check detects a stale preview
-version or renderer SHA-256. Preview the actual renderer after visual changes:
+version or renderer/registry SHA-256. Preview the actual renderer after visual changes:
 
 ```bash
 uv run python scripts/preview_banner.py docs/assets/banner.svg

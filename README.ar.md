@@ -1,20 +1,16 @@
 # Hard Implementation — مهارة تنفيذ Universal
 
-![أسد بيزأر مع HARD وتوقيع ALAEEB في التيرمنال](docs/assets/banner.svg)
+<!-- BEGIN GENERATED: systems -->
+**تشتغل مع:** Spec Kit, Kiro Specs, cc-sdd, Spec Workflow MCP, OpenSpec, Spec Kitty, Conductor, Superpowers.
+
+لو مشروعك شغّال بواحد من دول، المهارة بتستخدم المواصفات والمهام الموجودة
+علشان تنفّذ وتراجع وتتحقق وتستأنف الشغل بنفس نظام مشروعك.
+<!-- END GENERATED: systems -->
+
+![HARD وALAEEB وأنظمة المواصفات المتاحة](docs/assets/banner.svg)
 
 دي مهارة التنفيذ الكاملة: تكتشف نظام المواصفات اللي مشروعك شغّال بيه، تقرأ المطلوب
 والتصميم والمهام، تنفّذ حسب الاعتماديات، تختبر وتراجع، وتكمّل الشغل المتاح مع حفظ التقدم.
-
-**مش خاصة بـSpec Kit بس.** بتتكامل مع الأنظمة دي:
-
-- Spec Kit.
-- Kiro Specs.
-- cc-sdd.
-- Spec Workflow MCP.
-- OpenSpec.
-- Spec Kitty.
-- Conductor.
-- Superpowers.
 
 كل نظام بيفضل بنفس ملفاته وأسماء مهامه وحالاته وطريقة اعتماد الشغل عنده.
 لو المهام جوه الـPlan زي Conductor، المهارة تستخدمه؛ مش تعمل `tasks.md` جديد.
@@ -36,16 +32,19 @@ VS Code محرّر بيشغّل إضافات مختلفة؛ الدعم المس�
 
 ## التنزيل أو التحديث
 
+أمر تثبيت `hard` واحد على **ويندوز (PowerShell أو cmd)، لينكس، وماك**.
+تثبيت `uv` نفسه له طريقة حسب النظام في الرابط اللي تحت.
+
 لو أول مرة، ومعاك [uv](https://docs.astral.sh/uv/getting-started/installation/) وGit:
 
 ```bash
-uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.3
+uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.4
 ```
 
 لو برنامج `hard` متثبت عندك من قبل:
 
 ```bash
-uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.3
+uv tool install --reinstall-package hard-implementation git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.4
 ```
 
 ده بينزّل برنامج `hard` مرة واحدة، والمهارة كاملة موجودة جواه. مصدر الحزمة GitHub.
@@ -63,11 +62,9 @@ hard init
 بالـSpace، أو **All supported agents** علشان تختار الكل. وبعدها تختار المشروع ده
 بس، أو كل مشاريعك على الجهاز. هتشوف المكان والاختيارات، وتأكد التثبيت.
 
-البداية بأسد بيزأر مرسوم برموز التيرمنال الكبيرة بنفس طريقة كتابة **HARD**
-وتدرّج ألوانها، مع عرف حوالين الوش وأنياب وشارب. توقيع **ALAEEB** لسه بنفسجي.
-في الشباك الواسع الأسد والكتابة جنب بعض؛ في الشباك الأصغر الأسد فوق الكتابة،
-وفيه نسخة بسيطة عند غياب الألوان أو دعم الرموز.
-[شكل الرسم وأحجام العرض](docs/BRANDING.md). طريقة التنفيذ والمهارة كاملة زي ما هي.
+البداية فيها **HARD** وتوقيع **ALAEEB** البنفسجي، وبعدهم أسماء أنظمة المواصفات
+الثمانية، وشرح إنك تقدر تنفّذ وتراجع وتتحقق وتستأنف الشغل بنفس نظام مشروعك.
+[شكل شاشة التثبيت](docs/BRANDING.md). طريقة التنفيذ والمهارة كاملة زي ما هي.
 
 للتثبيت المباشر للأدوات كلها من غير أسئلة:
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.4
+
+- Remove the lion from every terminal layout and README preview; retain HARD and the purple ALAEEB signature, with an implementation/review/verification tagline.
+- Display all eight specification-system names and the purpose of the skill in the opening terminal panel, README introductions, skill body and GitHub About.
+- Bundle the canonical system registry for the CLI and generate opening documentation lists from the same metadata used for About.
+- Document the same tool-install command on Windows, Linux and macOS; clarify that uv's own installation depends on the platform.
+- Keep native workflow behavior, security instructions and the full original unchanged; preserve previous artwork as history.
+
 ## 1.3.3
 
 - Draw the roaring lion directly from Unicode block glyphs in the same lettering style and cyan/violet gradient as HARD; retain the purple ALAEEB signature.

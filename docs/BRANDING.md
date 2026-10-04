@@ -1,26 +1,34 @@
-# Glyph lion and ALAEEB branding
+# HARD / ALAEEB and specification systems
 
-The current banner is hand-drawn Unicode text in
-`src/hard_implementation/branding.py`. The lion uses block glyphs (`█`, `▄`, `▀`)
-and whisker lines, the same large-letter style and cyan/violet gradient as HARD.
-Its mane, eyes, muzzle, fangs and open jaw form a roaring lion. ALAEEB stays purple
-`#a855f7`; the tagline is `ROAR. BUILD. VERIFY.`.
+The current banner displays the HARD wordmark, a purple ALAEEB signature and
+`IMPLEMENT. REVIEW. VERIFY.`. It contains no lion or other animal artwork.
+`src/hard_implementation/branding.py` renders the lettering and the system panel.
 
-The lion is 52 columns by 26 rows. It is text artwork, so font and character
-support affect its appearance. No image decoding, image protocol, Pillow or asset
-download is used. This decorative revision changes no workflow or permissions.
+Immediately below the brand, the `Works with` panel displays **Spec Kit, Kiro Specs,
+cc-sdd, Spec Workflow MCP, OpenSpec, Spec Kitty, Conductor and Superpowers**. A short
+explanation says that Hard Implementation executes ready tasks, reviews, verifies
+and resumes progress using the project's existing specification workflow.
+
+The system names come from `project-metadata.json`, included in the installed
+package and also used to generate GitHub About and the README/skill opening blocks.
+This avoids independent, stale copies of the supported-system list.
 
 ## Terminal layouts
 
-- At 92+ columns: lion beside the HARD/ALAEEB wordmarks.
-- At 52–91 columns: centered lion above compact labels.
-- Smaller, monochrome, NO_COLOR or legacy-encoding output: ASCII/plain fallback.
-- JSON output: no artwork or decoration.
+- At 40+ columns with color/UTF support: HARD and ALAEEB block lettering.
+- Narrow, monochrome, NO_COLOR or legacy-encoding output: compact plain labels.
+- The systems panel uses two columns at 64+ columns and one column otherwise.
+- JSON output: no banner or panel decoration.
 
 `scripts/preview_banner.py` exports the actual renderer at 112 columns by default.
 The SVG uses a monospace font without external downloads. Inspect dark/light and
 narrow previews after changes; consistency checks verify the release version and
-renderer SHA-256 recorded in the SVG.
+renderer/registry SHA-256 recorded in the SVG.
+
+## Previous glyph artwork
+
+The lion glyphs were removed from the current banner at the author's request.
+They remain in the [v1.3.3 source release](https://github.com/Mohammed-AliDev/hard-implementation/releases/tag/v1.3.3).
 
 ## Preserved artwork from v1.3.2
 

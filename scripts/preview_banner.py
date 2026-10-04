@@ -37,7 +37,8 @@ def main():
     svg = re.sub(r"@font-face\s*\{.*?\}", "", svg, flags=re.S)
     svg = "\n".join(line.rstrip() for line in svg.splitlines()) + "\n"
     renderer_hash = hashlib.sha256((ROOT / "src/hard_implementation/branding.py").read_bytes()).hexdigest()
-    svg += f"<!-- Renderer SHA256: {renderer_hash} -->\n"
+    registry_hash = hashlib.sha256((ROOT / "project-metadata.json").read_bytes()).hexdigest()
+    svg += f"<!-- Renderer SHA256: {renderer_hash} -->\n<!-- Registry SHA256: {registry_hash} -->\n"
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_bytes(svg.encode("utf-8"))
     print(args.output)
