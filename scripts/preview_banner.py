@@ -17,7 +17,7 @@ from hard_implementation.branding import render_banner
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=Path)
-    parser.add_argument("--width", type=int, default=80)
+    parser.add_argument("--width", type=int, default=112)
     parser.add_argument("--theme", choices=("dark", "light"), default="dark")
     args = parser.parse_args()
     if args.width < 20:

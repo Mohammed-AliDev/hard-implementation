@@ -3,7 +3,7 @@ name: hard-implementation
 description: Implement or resume an existing specification and native task queue through dependency-aware execution, applicable threat modeling and security review, verification, and durable recovery. Supports Spec Kit, Kiro Specs, cc-sdd, Spec Workflow MCP, OpenSpec, Spec Kitty, Conductor, and Superpowers.
 license: MIT
 metadata:
-  version: "1.3.1"
+  version: "1.3.2"
 ---
 
 # Hard Implementation — Universal

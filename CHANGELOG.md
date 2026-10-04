@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.2
+
+- Replace the stylized lion with terminal artwork compiled from a generated photorealistic roaring lion, including natural eyes, layered fur, nose, teeth and mouth detail.
+- Select 36/48/64-column artwork according to terminal width and vertically center the HARD/ALAEEB wordmarks beside larger portraits.
+- Change ALAEEB to purple in full and compact layouts; preserve monochrome/legacy and JSON behavior.
+- Keep the source image and built-in image-generation prompt in the repository, add a development-only deterministic image compiler and verify source/compiled hash consistency. Runtime needs no Pillow or image display protocol.
+
 ## 1.3.1
 
 - Replace the terminal banner with a roaring pixel-art lion, a cyan/violet HARD wordmark, golden ALAEEB creator signature and "ROAR. BUILD. VERIFY." tagline.

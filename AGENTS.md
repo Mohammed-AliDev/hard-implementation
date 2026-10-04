@@ -30,6 +30,8 @@ These instructions govern package maintenance, documentation and release metadat
    When the version or terminal renderer changes, regenerate `docs/assets/banner.svg`
    with `uv run python scripts/preview_banner.py docs/assets/banner.svg` and inspect
    dark/light and narrow previews as described in the maintenance guide.
+   After changing lion source artwork, run `uv run --with pillow python
+   scripts/build_lion_art.py` and preserve its source/prompt provenance.
 4. Run the consistency check, relevant package tests, skill validation when its
    instructions change, and distribution builds when packaged files change.
    Fix drift instead of suppressing a check or deleting accurate historical evidence.

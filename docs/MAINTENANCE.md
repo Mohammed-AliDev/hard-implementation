@@ -52,9 +52,13 @@ and keep its applicability/evidence rules linked from the loading entrypoint.
 
 ## Terminal branding
 
-The lion, HARD wordmark and ALAEEB signature are rendered by
+The realistic lion, HARD wordmark and purple ALAEEB signature are rendered by
 `src/hard_implementation/branding.py` using Rich text and terminal half blocks.
-No image protocol, animation, raster dependency or external asset is required at runtime.
+The source/prompt are documented in [BRANDING.md](BRANDING.md); compiled artwork
+in `src/hard_implementation/lion_art.py` has 36/48/64-column sizes and a shared palette.
+Regenerate it with `uv run --with pillow python scripts/build_lion_art.py` when
+the source changes. Runtime uses only standard-library decoding and existing Rich;
+no image protocol, animation, Pillow or external asset download is required.
 Wide color terminals use a side-by-side layout; medium terminals center the lion;
 small, monochrome and legacy-encoding output use compact ASCII/plain branding.
 JSON output remains undecorated. The consistency check detects a stale preview
@@ -63,7 +67,7 @@ version. Preview the actual renderer after visual changes:
 ```bash
 uv run python scripts/preview_banner.py docs/assets/banner.svg
 uv run python scripts/preview_banner.py /tmp/hard-banner-light.svg --theme light
-uv run python scripts/preview_banner.py /tmp/hard-banner-medium.svg --width 60
+uv run python scripts/preview_banner.py /tmp/hard-banner-medium.svg --width 80
 ```
 
 Regenerate the README preview when its version or renderer changes. Inspect both

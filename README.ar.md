@@ -39,13 +39,13 @@ VS Code محرّر بيشغّل إضافات مختلفة؛ الدعم المس�
 لو أول مرة، ومعاك [uv](https://docs.astral.sh/uv/getting-started/installation/) وGit:
 
 ```bash
-uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.1
+uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.2
 ```
 
 لو برنامج `hard` متثبت عندك من قبل:
 
 ```bash
-uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.1
+uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.2
 ```
 
 ده بينزّل برنامج `hard` مرة واحدة، والمهارة كاملة موجودة جواه. مصدر الحزمة GitHub.
@@ -63,9 +63,10 @@ hard init
 بالـSpace، أو **All supported agents** علشان تختار الكل. وبعدها تختار المشروع ده
 بس، أو كل مشاريعك على الجهاز. هتشوف المكان والاختيارات، وتأكد التثبيت.
 
-البداية بقت بأسد بيزأر مرسوم بالبكسلات، مع **HARD** وتوقيع **ALAEEB** الذهبي.
-الشكل بيتظبط حسب عرض التيرمنال؛ فيه نسخة بسيطة للشاشات الضيقة أو اللي مش بتدعم
-الألوان والرموز. ده شكل العرض؛ طريقة التنفيذ والمهارة كاملة زي ما هي.
+البداية بقت بأسد بيزأر مبني على صورة أكثر واقعية، مع **HARD** وتوقيع **ALAEEB**
+البنفسجي. الفرو والعينين والفك فيهم تفاصيل أكتر؛ العرض الكبير بيحتفظ بتفاصيل
+أوضح، وفيه أحجام أصغر للشاشات الضيقة ونسخة بسيطة عند غياب الألوان والرموز.
+[الصورة الأصلية وطريقة التوليد والعرض](docs/BRANDING.md). طريقة التنفيذ والمهارة كاملة زي ما هي.
 
 للتثبيت المباشر للأدوات كلها من غير أسئلة:
 

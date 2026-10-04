@@ -2,7 +2,7 @@
 
 Validation date: **2026-10-04 (Africa/Cairo)**.
 
-## Current package checks (v1.3.1)
+## Current package checks (v1.3.2)
 
 - Original author's attachment preserved byte-for-byte: 55,439 bytes, 2,397 lines,
   46 numbered sections (0–44 and 4A). SHA-256 and section index are in
@@ -20,6 +20,24 @@ The package suite covers install/reinstall/uninstall, selecting supported agents
 preserving unrelated and pre-existing identical files, refusing modified managed
 files and conflicting destinations, parent/symlink checks, payload corruption,
 record path validation, ordinary write-failure rollback, and honest task inventory.
+
+## Realistic lion release (1.3.2)
+
+- The lion source is a generated photorealistic transparent PNG, preserved with its
+  built-in generation prompt in [BRANDING.md](BRANDING.md). Terminal compilation
+  retains natural fur/face/mouth colors; ALAEEB is purple in full/compact layouts.
+- Actual dark/light previews were inspected at 112 columns and the compact side-by-side
+  layout at 80 columns. Rendering remains a terminal cell approximation of the image.
+- Manual width checks covered 20, 23, 24, 40, 42, 60, 74, 75, 76, 87, 88, 103, 104,
+  112 and 160 columns in truecolor, 256-color and monochrome output. ASCII, CP1252,
+  UTF-8 and NO_COLOR remained printable; all compiled pixel buffers matched their
+  declared dimensions and the source SHA-256 matched the preserved image.
+- All 57 package tests passed locally. Security/system/native command behavior and
+  original workflow bytes are unchanged; no new model execution was run for this
+  decorative change. Pillow is needed only to regenerate artwork, not by users.
+- The wheel includes compiled artwork without the PNG or Pillow. The source archive
+  includes the preserved PNG, prompt documentation and compiler. Rendering from
+  the installed wheel passed in an isolated environment.
 
 ## Lion branding release (1.3.1)
 
