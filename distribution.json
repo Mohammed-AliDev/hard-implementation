@@ -1,0 +1,14 @@
+{
+  "package": "hard-implementation",
+  "version": "1.0.0",
+  "files": {
+    "skills/hard-implementation/LICENSE": "b631dcaa59104ce4a16f456c05655cc37468b9098a7eb2a74fdf18c3353f5cdd",
+    "skills/hard-implementation/SKILL.md": "12501bb788d06499ee03665db12ebd716bbd353c8da35dc7625c56c3aad8bac0",
+    "skills/hard-implementation/agents/openai.yaml": "d8f18a6de4affae02802eca590942a84954f1684bbc5551ecbb36599e154271f",
+    "skills/hard-implementation/assets/implementation-state.md": "7fbdd89a8402e241d64e4133a14b539f70747b991396e814a0ef46a3fbadec0b",
+    "skills/hard-implementation/references/execution.md": "439a56d02f59affeb351ca862c6652793f9bd72526881f9c3677a687fd3e8ff7",
+    "skills/hard-implementation/references/workflow.md": "3302000990ac049cc068a63927dac29757be8bd8031bb3fb9d5d7c1c715035c7",
+    "skills/hard-implementation/scripts/audit_tasks.py": "cd3200d2865be1b83e2ab415c16d57e990f975798fcdd6a55cb3be5d1d85e0cc",
+    "adapters/opencode/hard.implement.md": "d6d8572837f0d063ed763815b244e565b4140831431b6d0923a876962096463e"
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hard Implementation"
+  short_description: "Full Spec Kit execution, review, and recovery"
+  default_prompt: "Use $hard-implementation to implement or resume the current Spec Kit feature through verified local completion."
