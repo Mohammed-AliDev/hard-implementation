@@ -18,8 +18,9 @@ unchanged. Command files are loading adapters, not shortened replacement skills.
 | VS Code Copilot | `.github/prompts/hard.implement.prompt.md` | Stable default user-profile `prompts/hard.implement.prompt.md` | `/hard.implement` |
 
 Arguments remain ordinary user input. The adapter directs the host to load the
-complete installed skill before implementation; its original approval and task
-queue rules still apply. Existing native skill invocations remain available too.
+complete installed skill and its execution, system and security references before
+implementation; its original approval and task queue rules still apply. Existing
+native skill invocations remain available too.
 Restart/reload active sessions when discovery is cached. Pi project templates
 require project trust, and `/reload` refreshes its loaded prompts.
 

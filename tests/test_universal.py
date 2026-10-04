@@ -107,6 +107,7 @@ class UniversalTests(unittest.TestCase):
                     for prefix in engine.skill_prefixes([agent], scope):
                         self.assertEqual((root / prefix / 'references/workflow.md').read_bytes(), original)
                         self.assertTrue((root / prefix / 'references/systems.md').is_file())
+                        self.assertTrue((root / prefix / 'references/security.md').is_file())
                     self.assertEqual(engine.install(root, ROOT, [agent], scope=scope)['write'], [])
                     engine.install(root, ROOT, [agent], scope=scope, uninstall=True)
                     self.assertEqual(user.read_text(), 'keep')

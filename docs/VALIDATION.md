@@ -2,24 +2,48 @@
 
 Validation date: **2026-10-04 (Africa/Cairo)**.
 
-## Package checks
+## Current package checks (v1.3.0)
 
 - Original author's attachment preserved byte-for-byte: 55,439 bytes, 2,397 lines,
   46 numbered sections (0–44 and 4A). SHA-256 and section index are in
   [PRESERVATION.md](PRESERVATION.md).
-- `uv run python -m unittest discover -s tests -v`: **48 tests passed** on Linux.
+- `uv run python -m unittest discover -s tests -v`: **57 tests passed** on Linux.
 - Skill Creator `quick_validate.py`: **passed**.
 - Python compilation check: **passed**.
-- Independent review exercised the installer and read the complete skill. A
+- Earlier independent review exercised the installer and read the complete skill. A
   state-directory collision defect was found, fixed, and covered by regression
   tests; ordinary I/O failure rollback was also added and tested.
-- The OpenCode native `debug skill` and `debug config` commands recognized the
+- Earlier OpenCode native `debug skill` and `debug config` commands recognized the
   installed shared skill and `hard.implement` command in an isolated project.
 
 The package suite covers install/reinstall/uninstall, selecting supported agents,
 preserving unrelated and pre-existing identical files, refusing modified managed
 files and conflicting destinations, parent/symlink checks, payload corruption,
 record path validation, ordinary write-failure rollback, and honest task inventory.
+
+## Security and consistency release (1.3.0)
+
+- All ten hosts' project/global lifecycle fixtures include the required security
+  companion in every full skill copy. Missing or corrupt gate payloads are rejected
+  before destination writes; unchanged original bytes remain verified.
+- A project installed with the published v1.2.1 CLI was upgraded to v1.3.0 with
+  all ten agents selected. Status passed, every native copy included security.md,
+  and the original workflow and user-owned file were unchanged.
+- Consistency tests catch stale entrypoint/package/README versions, stale native
+  commands, broken local references, missing security resources and outdated About
+  descriptions/topics. Metadata preview is tested to remain read-only.
+- Full-repository consistency checks and Skill Creator validation passed locally.
+  AGENTS.md makes the manual full-file review a maintenance requirement; CI checks
+  local facts and reads GitHub About on pushes to main.
+- GitHub About description/topics were updated and read back successfully. Wheel
+  and source archives contain the security gate; an isolated wheel installation
+  with all ten agents passed status. Maintenance instructions, metadata and lockfile
+  are included in the source archive.
+- The new security instructions were checked for applicable threat modeling,
+  control coverage, evidence and risk-based closure requirements. This verifies
+  packaging/instruction coverage, not certification or a live security assessment
+  of every supported host or target application. Earlier paid live-agent scenarios
+  below predate this security companion and were not rerun for this release.
 
 ## v1.2.1 command adapters
 

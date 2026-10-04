@@ -35,6 +35,13 @@ and limitations. Link larger evidence artifacts instead of copying logs.
 Record task IDs, root cause, evidence, and the action needed. Distinguish local
 failures from unavailable external validation. Do not include secrets.
 
+## Security applicability and evidence
+
+Where relevant, record assets/trust boundaries, selected threats and controls,
+negative/abuse tests, review evidence, unavailable checks and residual risk. Link
+existing feature security records; avoid duplicating them. For low-risk work,
+a short reason for non-applicability is sufficient. Do not include secrets/payloads.
+
 ## Next ready action
 
 State the next concrete unit and prerequisites. On resume, verify this against

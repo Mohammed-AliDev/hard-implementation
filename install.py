@@ -13,7 +13,7 @@ import tempfile
 from urllib.request import urlopen
 
 REPOSITORY = "Mohammed-AliDev/hard-implementation"
-RELEASE = "v1.2.1"
+RELEASE = "v1.3.0"
 STATE = ".hard-implementation/install.json"
 SKILL_PREFIX = "skills/hard-implementation/"
 DEST_PREFIX = ".agents/skills/hard-implementation/"
@@ -190,7 +190,7 @@ def payload(source, agents, scope="project"):
         raise ValueError("Incomplete distribution manifest")
     required = ["references/workflow.md", "references/execution.md",
                 "assets/implementation-state.md", "scripts/audit_tasks.py",
-                "references/systems.md", "scripts/discover_system.py"]
+                "references/systems.md", "scripts/discover_system.py", "references/security.md"]
     if (any(SKILL_PREFIX + name not in files for name in required)
             or any(adapter not in files for adapter, _ in COMMAND_ADAPTERS.values())):
         raise ValueError("Required workflow resources or adapter missing")

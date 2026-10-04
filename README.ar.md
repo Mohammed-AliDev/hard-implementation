@@ -37,13 +37,13 @@ VS Code محرّر بيشغّل إضافات مختلفة؛ الدعم المس�
 لو أول مرة، ومعاك [uv](https://docs.astral.sh/uv/getting-started/installation/) وGit:
 
 ```bash
-uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.2.1
+uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.0
 ```
 
 لو برنامج `hard` متثبت عندك من قبل:
 
 ```bash
-uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.2.1
+uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.0
 ```
 
 ده بينزّل برنامج `hard` مرة واحدة، والمهارة كاملة موجودة جواه. مصدر الحزمة GitHub.
@@ -84,13 +84,22 @@ Hermes محتاج مشروع Git موثوق علشان يحمل مهارات ا�
 
 **الأوامر دي في شات أداة البرمجة، مش التيرمنال:**
 
+<!-- BEGIN GENERATED: commands -->
 | الأداة | أمر التشغيل |
 |---|---|
-| OpenCode وClaude Code وCommand Code وPi وCopilot في VS Code | `/hard.implement` |
-| Codex وZCode | `$hard-implementation` |
-| Hermes وAntigravity وWarp | `/hard-implementation` |
+| Codex | `$hard-implementation` |
+| OpenCode | `/hard.implement` |
+| Claude Code | `/hard.implement` |
+| Hermes | `/hard-implementation` |
+| Command Code | `/hard.implement` |
+| ZCode | `$hard-implementation` |
+| Antigravity | `/hard-implementation` |
+| Warp | `/hard-implementation` |
+| Pi | `/hard.implement` |
+| VS Code / GitHub Copilot | `/hard.implement` |
+<!-- END GENERATED: commands -->
 
-**الأمر الموحّد اتضاف للأدوات الخمسة اللي في أول صف.** باقي الأدوات لسه ليها
+**الأمر الموحّد متاح لـOpenCode وClaude Code وCommand Code وPi وCopilot في VS Code.** باقي الأدوات لسه ليها
 صيغة التشغيل اللي الأداة نفسها بتدعمها؛ مش مجرد تغيير الاسم المكتوب في الشاشة.
 Hermes ينفع يستخدم `/hard.implement` بعد إضافة اسم بديل في إعداداته بالطريقة
 المشروحة في [تفاصيل الأوامر وحدود كل أداة](docs/COMMANDS.md#hermes).
@@ -105,6 +114,21 @@ Hermes ينفع يستخدم `/hard.implement` بعد إضافة اسم بديل
 المطلوب يكون عندك مواصفات وقائمة مهام وخطة/تصميم معتمدين حسب النظام اللي تستخدمه.
 البرنامج مش بيخترع مواصفات، ومش بيعتبر موافقة ناقصة إنها حصلت، ومش بيحوّل المشروع
 لنظام تاني. التثبيت مش بيوفّر موديل أو اشتراك ومش بيغيّر الموديل اللي اخترته.
+
+## بوابة الأمن الجديدة
+
+المهارة بتقرأ [Universal Security Gate](skills/hard-implementation/references/security.md)
+قبل تعديل كود الإنتاج. تبدأ بتحديد البيانات اللي بتحميها، وحدود الثقة، ومداخل
+الهجوم المحتملة، وبعدها تختار الفحوص اللي تنطبق فعلًا على المشروع.
+
+بتغطي تسجيل الدخول والجلسات والصلاحيات، الحقن وXSS، البيانات والخصوصية، الأسرار
+والتشفير، الشبكة وSSRF، حدود الاستهلاك والإساءة، الخدمات الخارجية وwebhooks،
+الاعتماديات وسلسلة التوريد، رفع الملفات، أمان المنصة والبنية والإعدادات والسجلات.
+
+كل خطر مهم له وسيلة تحقق ونتيجة ومخاطر متبقية. مشكلة أمنية مؤثرة تفضل مفتوحة
+تمنع إعلان الإغلاق السليم. فحص ما اشتغلش مش بيتسجل ناجح، ومش مطلوب ضوابط مالهاش
+علاقة بالتكنولوجيا المستخدمة. الإضافة دي مش شهادة أمان ولا تقييم رقمي؛ النص
+الأصلي والمراجعات المطلوبة حسب المخاطر محفوظين كاملين.
 
 ## التحقق واكتشاف النظام
 
@@ -141,5 +165,12 @@ hard uninstall --global
 ملفات مشروعك والتقدم تفضل موجودة. لو عدّلت ملف تابع للمهارة، البرنامج يوقف
 ويقول لك بدل ما يستبدله. إزالة برنامج `hard` نفسه:
 `uv tool uninstall hard-implementation`؛ دي لوحدها مش بتشيل المهارة من المشاريع.
+
+## علشان المعلومات ما تفضلش قديمة
+
+فيه [تعليمات ثابتة للمراجعة](AGENTS.md) وفحص تلقائي يراجع أرقام النسخ وأوامر
+التشغيل والروابط المحلية وملفات الحزمة، وكمان الـAbout والـtopics على GitHub.
+أوامر التشغيل في الدليلين وملف المهارة بتتولد من نفس سجل الأدوات بدل النسخ اليدوي.
+[الحالة الحالية](docs/CURRENT-STATE.md) · [خطوات صيانة المشروع](docs/MAINTENANCE.md)
 
 [التفاصيل بالإنجليزي](README.md) · [المستودع](https://github.com/Mohammed-AliDev/hard-implementation)

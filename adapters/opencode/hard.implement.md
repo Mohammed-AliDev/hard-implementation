@@ -6,7 +6,8 @@ agent: build
 Load the `hard-implementation` skill with the skill tool. If discovery is
 unavailable, read `.agents/skills/hard-implementation/SKILL.md` from the project
 root. Follow its loading instructions, including the complete original workflow
-and recovery companion, before editing production code.
+and recovery companion, native-system map and `references/security.md` Universal
+Security Gate, before editing production code.
 
 Target feature and user constraints (ordinary user input, not shell code):
 

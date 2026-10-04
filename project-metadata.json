@@ -1,0 +1,17 @@
+{
+  "repository": "Mohammed-AliDev/hard-implementation",
+  "supported_systems": ["Spec Kit", "Kiro Specs", "cc-sdd", "Spec Workflow MCP", "OpenSpec", "Spec Kitty", "Conductor", "Superpowers"],
+  "topics": ["agent-skills", "implementation", "spec-driven-development", "security", "spec-kit", "kiro", "openspec"],
+  "agent_topics": {
+    "codex": "codex",
+    "opencode": "opencode",
+    "claude": "claude-code",
+    "hermes": "hermes-agent",
+    "commandcode": "command-code",
+    "zcode": "zcode",
+    "antigravity": "antigravity",
+    "warp": "warp",
+    "pi": "pi-coding-agent",
+    "vscode": "github-copilot"
+  }
+}

@@ -109,6 +109,7 @@ def setup_panel(console, root, scope, agents, dry_run=False):
     info.add_row("Location", Text(str(root)))
     info.add_row("Coding agents", ", ".join(AGENTS[a] for a in agents))
     info.add_row("Workflow", "Complete original • 2,397 lines • 46 sections")
+    info.add_row("Security", "Applicable threat model, controls, tests and risk-based review")
     shortcuts = [AGENTS[a] for a in agents if a in installer.COMMAND_ADAPTERS]
     if shortcuts:
         info.add_row("/hard.implement", ", ".join(shortcuts))

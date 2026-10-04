@@ -1,20 +1,21 @@
 {
   "package": "hard-implementation",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "files": {
     "skills/hard-implementation/LICENSE": "b631dcaa59104ce4a16f456c05655cc37468b9098a7eb2a74fdf18c3353f5cdd",
-    "skills/hard-implementation/SKILL.md": "5f373afb764a412fb5e6b170e33fa923b4800ebb5ecc045a618af2f04d807e02",
-    "skills/hard-implementation/agents/openai.yaml": "31d111ea68bf1a6dbdfc4ac69a7e5733be9a46f03b19885574f39304e545751f",
-    "skills/hard-implementation/assets/implementation-state.md": "14af6d818fe076038b96a0624ecf548dd677b4ce44e8503058f64721d493fe18",
-    "skills/hard-implementation/references/execution.md": "ff3a5d6a227d5d4fa49091fe148069aeba86351d0fdd25a74c2ffcf11704c146",
+    "skills/hard-implementation/SKILL.md": "14882c2572b7958f58af958e720710e34d0aa25d629660a3ee19f9ff028bcb2b",
+    "skills/hard-implementation/agents/openai.yaml": "da549b279ab26c8290e0efbd50ecdc13cb5bc10cb4e39eb8c916322d01de5a8f",
+    "skills/hard-implementation/assets/implementation-state.md": "b6c0b1dddc5978c37f14dd706b173b4ae8ad76b3a2057bd65b3d9b3d3cb0b5d6",
+    "skills/hard-implementation/references/execution.md": "b3916a72368957f786651ae26c188c070cb63cbba2313a654accef20db0513fa",
+    "skills/hard-implementation/references/security.md": "1a497504c095d0fe2fea437d1b13e67853a4c3b54be381cde7453eac5d53c74f",
     "skills/hard-implementation/references/systems.md": "1355f175412da22a05f1f84632ea1b25c11d712b699150be21cb12553af77447",
     "skills/hard-implementation/references/workflow.md": "3302000990ac049cc068a63927dac29757be8bd8031bb3fb9d5d7c1c715035c7",
     "skills/hard-implementation/scripts/audit_tasks.py": "fa9d99a4c2eec1e08703a8b64a604bb1612ff437b00a498bd7c458baaa9961df",
     "skills/hard-implementation/scripts/discover_system.py": "b8948ff32c01ca5185f123e29f2e694f78ed739cee09a3387ad93cb1a44bce90",
-    "adapters/claude/hard.implement.md": "5703353094f7a62d63d88420e566ad666e1d1a2def45bc33246aafff417ce056",
-    "adapters/commandcode/hard.implement.md": "d59bcf36b3f1836d5bd67f27ffd909c906a9b19e01a7eaf9a8da6bc9f9412ed5",
-    "adapters/opencode/hard.implement.md": "c9f87c202429d18b6e053f909c1465a3077f695f438fde1524f13a14ab0c0692",
-    "adapters/pi/hard.implement.md": "5703353094f7a62d63d88420e566ad666e1d1a2def45bc33246aafff417ce056",
-    "adapters/vscode/hard.implement.prompt.md": "438e0499f8056af756e631e76fb560d7b897be48ab6ed8e2cb702a2c9754cf65"
+    "adapters/claude/hard.implement.md": "6f67a9653faf63022bdf501f1a633ab8f39ca6482238483d422a2c674d6cd5d6",
+    "adapters/commandcode/hard.implement.md": "9d72a2e166552ed2506fe26c83d7ce65caa61fdaa6047b59f394d38631fc4027",
+    "adapters/opencode/hard.implement.md": "5aae0b82e7905f7af8cdc5be5e3eeb691b92928b72f936096f9df95fc5be2f1e",
+    "adapters/pi/hard.implement.md": "6f67a9653faf63022bdf501f1a633ab8f39ca6482238483d422a2c674d6cd5d6",
+    "adapters/vscode/hard.implement.prompt.md": "5fecd61cf0771eefe78d3166adfed0c0678b507b53414695f748bd018df4bfa6"
   }
 }

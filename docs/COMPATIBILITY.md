@@ -2,8 +2,9 @@
 
 Verified documentation and installation fixtures: 2026-10-04. Agent skills are
 instructions loaded by the host; execution and permissions use its configured tools.
-Every installed skill copy contains the complete preserved original and native-system
-map. The shared directory is `.agents/skills/hard-implementation/` (under home for
+Every installed skill copy contains the complete preserved original, native-system
+map, execution reference and Universal Security Gate. The shared directory is
+`.agents/skills/hard-implementation/` (under home for
 global setup); required native copies are additional complete copies, not summaries.
 
 | Installer agent ID | Host | Project discovery used | Global discovery used | Chat invocation |

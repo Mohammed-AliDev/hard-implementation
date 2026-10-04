@@ -38,13 +38,13 @@ Requirements: [uv](https://docs.astral.sh/uv/getting-started/installation/), Git
 Python 3.10+ (uv can provision it), and your chosen coding agent/model access.
 
 ```bash
-uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.2.1
+uv tool install git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.0
 ```
 
 Updating an existing `hard` command:
 
 ```bash
-uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.2.1
+uv tool install --reinstall git+https://github.com/Mohammed-AliDev/hard-implementation.git@v1.3.0
 ```
 
 The package source is GitHub, not PyPI. The complete skill ships inside the package;
@@ -93,13 +93,23 @@ use their own host integrations. See [exact paths and sources](docs/COMPATIBILIT
 Commands below go in **agent chat**, not your shell. Append the actual feature,
 change, track, work-package collection, or linked plan path when needed.
 
-| Agent | Invocation |
+<!-- BEGIN GENERATED: commands -->
+| Coding agent | Chat command |
 |---|---|
-| OpenCode / Claude Code / Command Code / Pi / VS Code Copilot | `/hard.implement` |
-| Codex / ZCode | `$hard-implementation` |
-| Hermes / Antigravity / Warp | `/hard-implementation` |
+| Codex | `$hard-implementation` |
+| OpenCode | `/hard.implement` |
+| Claude Code | `/hard.implement` |
+| Hermes | `/hard-implementation` |
+| Command Code | `/hard.implement` |
+| ZCode | `$hard-implementation` |
+| Antigravity | `/hard-implementation` |
+| Warp | `/hard-implementation` |
+| Pi | `/hard.implement` |
+| VS Code / GitHub Copilot | `/hard.implement` |
+<!-- END GENERATED: commands -->
 
-**The exact slash command is installed for the five hosts in the first row.**
+**The exact slash command is installed for OpenCode, Claude Code, Command Code, Pi,
+and VS Code Copilot.**
 Other hosts keep their supported invocation syntax; the package does not register
 unsupported aliases. Hermes can use the same spelling through a native quick-command
 alias. See [command support, setup, and limitations](docs/COMMANDS.md). Pi project
@@ -110,6 +120,20 @@ need import into the active profile.
 The agent first reads the full original workflow and native-system map, discovers
 what the project uses, and preserves its own implementation process. Restart or
 refresh an open host session if needed. No model subscription is provided.
+
+## Security coverage
+
+The entrypoint loads the [Universal Security Gate](skills/hard-implementation/references/security.md)
+before production edits. It adds a scoped threat model, applicable controls,
+negative/abuse verification and evidence to the original risk-based review process.
+Coverage includes sessions/authentication, authorization, injection/encoding,
+data/privacy, secrets/cryptography, transport/SSRF, abuse limits, third-party trust,
+supply chain, files/uploads, platform/infrastructure configuration and audit logging.
+
+Use only controls relevant to the actual technology and changed attack surfaces.
+Unresolved material findings block clean closure; unavailable checks are recorded
+honestly. The gate is not certification, a numerical security score, permission for
+production attacks, or a claim that every project is automatically secure.
 
 ## Inspect, resume, and uninstall
 
@@ -155,13 +179,13 @@ The dependency-free legacy installer still supports project setup. From your act
 project (select agents explicitly; default retains Codex + OpenCode):
 
 ```bash
-uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.2.1/install.py --project . --agent claude --agent hermes
+uv run --no-project https://raw.githubusercontent.com/Mohammed-AliDev/hard-implementation/v1.3.0/install.py --project . --agent claude --agent hermes
 ```
 
 Or clone this release and use local Python:
 
 ```bash
-git clone --branch v1.2.1 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
+git clone --branch v1.3.0 --depth 1 https://github.com/Mohammed-AliDev/hard-implementation.git
 python3 hard-implementation/install.py --project . --source hard-implementation --agent claude
 ```
 
@@ -171,18 +195,24 @@ replace `python3`. The guided `hard` CLI is the recommended install/update/remov
 ## Alternative skills distribution
 
 The repository’s `skills/hard-implementation` is a standard Agent Skills package.
-Other skill installers can install it, but may not supply our OpenCode command,
+Other skill installers can install it, but may not supply our native command adapters,
 additional native/global copies, or ownership records. Manage those installations
 with the installer that created them; do not assume `hard uninstall` owns them.
+
+[Current facts](docs/CURRENT-STATE.md) and [maintenance steps](docs/MAINTENANCE.md)
+keep package versions, commands, documentation and GitHub About synchronized.
+Review the whole repository after each substantive update; CI checks common drift,
+local references, resource hashes and the published About on main.
 
 ## Development and validation
 
 ```bash
 uv sync
+python scripts/check_consistency.py --write
+python scripts/check_consistency.py
 uv run python -m unittest discover -s tests -v
-uv run python scripts/build_distribution.py
 uv build
-git diff --exit-code
+git diff --check
 ```
 
 The suite checks the original byte-for-byte preservation, all selected native host

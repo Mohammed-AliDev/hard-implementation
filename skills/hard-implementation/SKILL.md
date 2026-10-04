@@ -1,9 +1,9 @@
 ---
 name: hard-implementation
-description: Implement or resume an existing specification and native task queue through dependency-aware execution, risk-based review, verification, and durable recovery. Supports Spec Kit, Kiro, cc-sdd, Spec Workflow MCP, OpenSpec, Spec Kitty, Conductor, and Superpowers.
+description: Implement or resume an existing specification and native task queue through dependency-aware execution, applicable threat modeling and security review, verification, and durable recovery. Supports Spec Kit, Kiro Specs, cc-sdd, Spec Workflow MCP, OpenSpec, Spec Kitty, Conductor, and Superpowers.
 license: MIT
 metadata:
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Hard Implementation — Universal
@@ -30,6 +30,10 @@ the workflow.
 5. Discover capabilities, establish the baseline, and classify the execution tier
    as prescribed in the original. Apply its applicability rules; no section has
    been removed or replaced by a shorter workflow.
+6. Read [the Universal Security Gate](references/security.md). Before production
+   edits, assess the changed attack surfaces and select applicable controls and
+   verification. Record threats/results proportionally to risk and preserve the
+   original independent review and completion obligations.
 
 Relative links resolve against this skill's directory, not the user's repository.
 If a required reference is unavailable, report the incomplete installation rather
@@ -37,11 +41,26 @@ than pretending the full workflow was loaded.
 
 ## Invocation
 
-- **Codex / ZCode:** `$hard-implementation`.
-- **OpenCode:** `/hard.implement` with the supplied adapter, or request the skill.
-- **Claude Code / Hermes / Command Code / Warp / Antigravity / VS Code Copilot:**
-  `/hard-implementation` (Hermes project skills require native project trust).
-- **Pi:** `/skill:hard-implementation`.
+<!-- BEGIN GENERATED: commands -->
+| Coding agent | Chat command |
+|---|---|
+| Codex | `$hard-implementation` |
+| OpenCode | `/hard.implement` |
+| Claude Code | `/hard.implement` |
+| Hermes | `/hard-implementation` |
+| Command Code | `/hard.implement` |
+| ZCode | `$hard-implementation` |
+| Antigravity | `/hard-implementation` |
+| Warp | `/hard-implementation` |
+| Pi | `/hard.implement` |
+| VS Code / GitHub Copilot | `/hard.implement` |
+<!-- END GENERATED: commands -->
+
+Hermes can use `/hard.implement` through a native quick-command alias configured
+by the user. Project skills require native trust. Pi project prompts also require
+trust. Global VS Code prompts use the Stable default profile; other profiles need
+prompt import. An exact `/hard.implement` alias is not installed for Codex, ZCode,
+Antigravity or Warp. Keep the host's supported invocation syntax.
 - Append the actual feature/change/track/plan path when needed. Each host loads this
   same full workflow. Discovery, model access, and permissions remain host-specific.
 - The argument is ordinary text identifying the native target and any user

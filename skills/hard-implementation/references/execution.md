@@ -5,7 +5,9 @@ rules remain in `workflow.md`. These mechanics make sections 10, 32, 33, 37, 42,
 and 44 easier to resume across contexts and agent tools.
 
 Read [systems.md](systems.md) and establish the SYSTEM MAP before applying these
-mechanics. Spec/Plan/Tasks below mean the discovered native artifact roles.
+mechanics. Spec/Plan/Tasks below mean the discovered native artifact roles. Apply
+[security.md](security.md) before production edits and during review/closure;
+store relevant threat/control/verification evidence with the feature's existing records.
 
 ## Durable checkpoint
 
@@ -84,8 +86,11 @@ or shared skill locations. Codex/OpenCode/Command Code/Warp/Pi/VS Code Copilot a
 current Antigravity/Hermes project discovery support `.agents/skills/`. Claude Code
 and ZCode receive complete native copies; global Hermes and Antigravity receive
 native copies as well. Every copy preserves the original workflow byte-for-byte.
-OpenCode also receives `/hard.implement`. Hermes trust and ZCode refresh/enable
-controls remain native user decisions; the installer does not edit their settings.
+OpenCode, Claude Code, Command Code, Pi and VS Code Copilot receive native
+`/hard.implement` loading adapters. Codex/ZCode retain `$hard-implementation`;
+Hermes/Antigravity/Warp retain `/hard-implementation`. Hermes may use a user-configured
+native quick-command alias. Hermes/Pi trust, ZCode refresh/enable and custom VS Code
+profile import remain native user decisions; the installer does not edit their settings.
 Use the current host's native tools, configured model, and permission settings.
 Opening a new orchestrator context is conditional on actual host capabilities;
 otherwise coordinate from the current context and disclose the limitation.

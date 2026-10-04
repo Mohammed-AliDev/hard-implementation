@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.0
+
+- Add an applicable Universal Security Gate: threat modeling, sessions/auth, authorization, injection/encoding, data/privacy, secrets/crypto, transport/SSRF, abuse limits, third-party trust, supply chain, files, platform/infrastructure and audit verification.
+- Load the security companion before production edits and preserve original risk-based review and closure obligations; no numerical security rating or certification claim.
+- Fix stale entrypoint version/native invocation strings and recovery adapter documentation while preserving the full original workflow byte-for-byte.
+- Generate current command tables and release facts from the installer registry; verify versions, local references, full resource hashes and public GitHub About/topics.
+- Record mandatory full-repository review in AGENTS.md and add consistency CI, including a read-only About check on main.
+- Synchronize GitHub description/topics with all ten coding agents and eight native spec systems.
+
 ## 1.2.1
 
 - Add `/hard.implement` native commands for Claude Code, Command Code, Pi, and VS Code Copilot alongside OpenCode.

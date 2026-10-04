@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 import re
 
+from check_consistency import project_version
+
 ROOT = Path(__file__).resolve().parents[1]
 ORIGINAL_SHA256 = "3302000990ac049cc068a63927dac29757be8bd8031bb3fb9d5d7c1c715035c7"
 
@@ -18,7 +20,7 @@ def main():
     paths += sorted((p for p in (ROOT / "adapters").rglob("*")
                      if p.is_file() and "__pycache__" not in p.parts and p.suffix != ".pyc"),
                     key=lambda p: p.relative_to(ROOT).as_posix())
-    data = {"package": "hard-implementation", "version": "1.2.1", "files": {
+    data = {"package": "hard-implementation", "version": project_version(ROOT), "files": {
         p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}}
     (ROOT / "distribution.json").write_bytes((json.dumps(data, indent=2) + "\n").encode("utf-8"))
     original_lines = raw.decode().splitlines()
@@ -33,7 +35,8 @@ def main():
              f"- SHA-256: `{ORIGINAL_SHA256}`", f"- Bytes: {len(raw)}",
              f"- Numbered sections: {len(headings)} (0–44 plus 4A)", "",
              "`SKILL.md` is a loading entrypoint. `references/execution.md` adds persistence",
-             "and host adaptation; `references/systems.md` adds native-system role bindings.",
+             "and host adaptation; `references/systems.md` adds native-system role bindings;",
+             "`references/security.md` adds the applicable Universal Security Gate.",
              "They do not replace the original workflow. Every run",
              "is instructed to read the complete original before implementation.", "",
              "| Original section | Line in preserved file |", "|---|---|"]

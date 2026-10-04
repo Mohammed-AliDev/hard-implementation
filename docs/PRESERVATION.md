@@ -9,7 +9,8 @@ No original rule, example, or section was deleted or shortened.
 - Numbered sections: 46 (0–44 plus 4A)
 
 `SKILL.md` is a loading entrypoint. `references/execution.md` adds persistence
-and host adaptation; `references/systems.md` adds native-system role bindings.
+and host adaptation; `references/systems.md` adds native-system role bindings;
+`references/security.md` adds the applicable Universal Security Gate.
 They do not replace the original workflow. Every run
 is instructed to read the complete original before implementation.
 

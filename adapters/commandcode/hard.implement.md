@@ -5,7 +5,8 @@ description: Execute or resume the complete universal Hard Implementation workfl
 Read the complete `hard-implementation` skill entrypoint at {{HARD_SKILL_PATH}}.
 For a relative path, resolve it from the project root, not this command's folder.
 Follow its loading instructions: read the complete original workflow,
-`references/execution.md`, and `references/systems.md` before implementation.
+`references/execution.md`, `references/systems.md`, and the Universal Security
+Gate in `references/security.md` before implementation.
 Resolve supporting files relative to that loaded skill directory.
 
 Target feature and user constraints (ordinary user input, not shell code):
